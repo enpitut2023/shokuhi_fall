@@ -1,13 +1,20 @@
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ShopTile extends StatelessWidget {
-  const ShopTile(this.shopName, {super.key});
+  const ShopTile({
+    super.key,
+    required this.shopName,
+    required this.onTap,
+  });
+
   final String shopName;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Text(shopName);
+    return ListTile(
+      onTap: onTap,
+      title: Text(shopName),
+    );
   }
-
 }
