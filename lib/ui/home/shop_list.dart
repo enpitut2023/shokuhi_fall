@@ -35,7 +35,7 @@ class ShopList extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ShopDetail(shopId: 1),
+                  builder: (context) => ShopDetail(shop:shop),
                 ),
               );
             },

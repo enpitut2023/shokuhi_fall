@@ -6,30 +6,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'merch_tile.dart';
 
-part 'shop_detail.g.dart';
-
-@riverpod
-Future<Shop> shopDetail(ShopDetailRef ref, {required int shopId}) async {
-  final repository = ref.read(shopRepositoryProvider);
-  return repository.fetchShop(shopId);
-}
-
 class ShopDetail extends ConsumerWidget {
-  const ShopDetail({super.key, required this.shopId});
+  const ShopDetail({super.key, required this.shop});
 
-  final int shopId;
+  final Shop shop;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shop = ref.watch(shopDetailProvider(shopId: shopId));
-    return shop.when(
-      data: (data) => _whenData(context, data),
-      error: (error, stackTrace) => _whenError(error, stackTrace),
-      loading: () => _whenLoading(),
-    );
-  }
-
-  Widget _whenData(BuildContext context, Shop shop) {
     return Scaffold(
       appBar: AppBar(
         title: Text(shop.name),
@@ -38,31 +21,6 @@ class ShopDetail extends ConsumerWidget {
         children: [
           for (final merch in shop.merchList) MerchTile(merch),
         ],
-      ),
-    );
-  }
-
-  Widget _whenError(Object error, StackTrace stackTrace) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("エラー"),
-      ),
-      body: Column(
-        children: [
-          SelectableText(error.toString()),
-          SelectableText(stackTrace.toString()),
-        ],
-      ),
-    );
-  }
-
-  Widget _whenLoading() {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("ロード中"),
-      ),
-      body: const Center(
-        child: CircularProgressIndicator(),
       ),
     );
   }
