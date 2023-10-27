@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
-import 'package:ketchy/ui/home/shop_tile.dart';
+import 'package:ketchy/ui/home/shop_list/shop_tile.dart';
 import 'package:ketchy/ui/shop_detail/shop_detail.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
