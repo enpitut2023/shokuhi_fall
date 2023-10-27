@@ -58,9 +58,34 @@ class DummyShopRepository implements ShopRepository {
     return Future.value(
       [
         for (final name in ["ロピア", "トライアル", "カスミ"]) _ropia.copyWith(name: name),
+        _idealShop,
+
       ],
     );
   }
+
+  final Shop _idealShop = const Shop(
+    id: 0,
+    name: '理想の店',
+    merchList: [
+      Merch(
+        id: 1,
+        name: "豚小間切れ",
+        minPrice: 1,
+        maxPrice: 10,
+        averagePrice: 5,
+        description: "100gあたりの値段。多いほどグラム単価は安い",
+      ),
+      Merch(
+        id: 1,
+        name: "5円",
+        minPrice: 1,
+        maxPrice: 1,
+        averagePrice: 1,
+        description: "5円なのに1円",
+      ),
+    ],
+  );
 
   final Shop _ropia = const Shop(
     id: 0,
