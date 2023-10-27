@@ -19,20 +19,25 @@ class MerchList extends ConsumerWidget {
       description: 'oe',
     );
 
-    return ListView(
-      children: [
-        MerchTile(
-          merch,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ShopList(merchName: merch.name),
-              ),
-            );
-          },
-        )
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('商品一覧'),
+      ),
+      body: ListView(
+        children: [
+          MerchTile(
+            merch,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShopList(merchName: merch.name),
+                ),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
