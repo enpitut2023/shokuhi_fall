@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ketchy/model/merch.dart';
 import 'package:ketchy/model/shop.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,6 +12,39 @@ abstract class ShopRepository {
   Future<Shop> fetchShop(int shopId);
 
   Future<List<Shop>> fetchShopList();
+  
+  Future<List<Shop>> fetchShopListFromMerch(String merchName);
+}
+
+class ShopRepositoryImpl implements ShopRepository{
+  @override
+  Future<Shop> fetchShop(int shopId) async {
+    // TODO: implement fetchShop
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Shop>> fetchShopList() async {
+    final snapshot = await FirebaseFirestore.instance.collection('shop_list').get();
+    final List<Shop> list = [];
+    for (var doc in snapshot.docs) {
+      // TODO: docからデータを取得してShopを作成
+      final shop = Shop(
+        id: 1,
+        name: doc['shop_name'],
+        merchList: [],
+      );
+      list.add(shop);
+    }
+    return list;
+  }
+
+  @override
+  Future<List<Shop>> fetchShopListFromMerch(String merchName) {
+    // TODO: implement fetchShopListFromMerch
+    throw UnimplementedError();
+  }
+
 }
 
 class DummyShopRepository implements ShopRepository {
@@ -50,4 +84,9 @@ class DummyShopRepository implements ShopRepository {
       ),
     ],
   );
+
+  @override
+  Future<List<Shop>> fetchShopListFromMerch(String merchName) {
+    return fetchShopList();
+  }
 }

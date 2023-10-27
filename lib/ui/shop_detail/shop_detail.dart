@@ -4,7 +4,7 @@ import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'merch_tile.dart';
+import '../home/merch_list/merch_tile.dart';
 
 class ShopDetail extends ConsumerWidget {
   const ShopDetail({super.key, required this.shop});
