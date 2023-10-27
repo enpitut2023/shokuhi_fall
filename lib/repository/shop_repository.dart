@@ -6,12 +6,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'shop_repository.g.dart';
 
 @riverpod
-ShopRepository shopRepository(ShopRepositoryRef ref) => ShopRepositoryImpl();
+ShopRepository shopRepository(ShopRepositoryRef ref) => DummyShopRepository();
 
 abstract class ShopRepository {
   Future<Shop> fetchShop(int shopId);
 
   Future<List<Shop>> fetchShopList();
+  
+  Future<List<Shop>> fetchShopListFromMerch(String merchName);
 }
 
 class ShopRepositoryImpl implements ShopRepository{
@@ -35,6 +37,12 @@ class ShopRepositoryImpl implements ShopRepository{
       list.add(shop);
     }
     return list;
+  }
+
+  @override
+  Future<List<Shop>> fetchShopListFromMerch(String merchName) {
+    // TODO: implement fetchShopListFromMerch
+    throw UnimplementedError();
   }
 
 }
@@ -76,4 +84,9 @@ class DummyShopRepository implements ShopRepository {
       ),
     ],
   );
+
+  @override
+  Future<List<Shop>> fetchShopListFromMerch(String merchName) {
+    return fetchShopList();
+  }
 }
