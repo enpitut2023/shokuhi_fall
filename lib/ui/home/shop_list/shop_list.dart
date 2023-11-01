@@ -4,73 +4,60 @@ import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:ketchy/ui/home/shop_list/shop_tile.dart';
 import 'package:ketchy/ui/shop_detail/shop_detail.dart';
+import 'package:ketchy/ui/widgets/async_value_widget.dart';
+import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shop_list.g.dart';
 
 @riverpod
-Future<List<Shop>> shopList(ShopListRef ref, {String? merchId}) async {
-  if (merchId == null) {
-    return ref.read(shopRepositoryProvider).fetchShopList();
-  } else {
-    return ref.read(shopRepositoryProvider).fetchShopListFromMerch(merchId);
-  }
+Future<List<Shop>> shopList(ShopListRef ref, List<String> merchIdList) async {
+  final shopList = await ref
+      .read(shopRepositoryProvider)
+      .fetchShopListFromMerchList(merchIdList);
+  return shopList
+    ..sort(
+      (a, b) => b.merchList.length.compareTo(a.merchList.length),
+    );
 }
 
 class ShopList extends ConsumerWidget {
-  const ShopList({super.key, this.merchId, this.merchName});
+  const ShopList(
+      {super.key, required this.merchIdList, required this.merchName});
 
-  final String? merchId;
-  final String? merchName;
+  final List<String> merchIdList;
+  final String merchName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shopList = ref.watch(shopListProvider(merchId: merchId));
+    final shopList = ref.watch(shopListProvider(merchIdList));
     return Scaffold(
       appBar: AppBar(
-        title: Text(merchName ?? '店舗一覧'),
+        title: Text(merchName),
       ),
-      body: shopList.when(
-        data: (data) => _whenData(context, data, merchId, merchName),
-        error: (error, stackTrace) => _whenError(error, stackTrace),
-        loading: () => _whenLoading(),
+      body: AsyncValueWidget(
+        value: shopList,
+        builder: (shopList) => _whenData(context, shopList),
       ),
     );
   }
 
-  Widget _whenData(
-      BuildContext context, List<Shop> shopList, String? merchId, String? merchName) {
-    return ListView(
-      children: [
-        for (final shop in shopList)
-          ShopTile(
-            shop: shop,
-            merchName: merchName,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShopDetail(shop: shop),
-                ),
-              );
-            },
-          ),
-      ],
-    );
-  }
-
-  Widget _whenError(Object error, StackTrace stackTrace) {
-    return Column(
-      children: [
-        SelectableText(error.toString()),
-        SelectableText(stackTrace.toString()),
-      ],
-    );
-  }
-
-  Widget _whenLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
+  Widget _whenData(BuildContext context, List<Shop> shopList) {
+    return ListView.separated(
+      separatorBuilder: (context, index) => const ListDivider(),
+      itemCount: shopList.length,
+      itemBuilder: (context, index) => ShopTile(
+        shop: shopList[index],
+        merchList: shopList[index].merchList,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ShopDetail(shop: shopList[index]),
+            ),
+          );
+        },
+      ),
     );
   }
 }

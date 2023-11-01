@@ -16,6 +16,8 @@ abstract class ShopRepository {
   Future<List<Shop>> fetchShopList();
 
   Future<List<Shop>> fetchShopListFromMerch(String merchId);
+
+  Future<List<Shop>> fetchShopListFromMerchList(List<String> merchIdList);
 }
 
 class ShopRepositoryImpl implements ShopRepository {
@@ -53,25 +55,72 @@ class ShopRepositoryImpl implements ShopRepository {
     final shopSnapshot = await instance.collection('shop_list').get();
 
     for (final shopDoc in shopSnapshot.docs) {
-      final merchSnapshot = await instance.collection('shop_list').doc(shopDoc.id).collection('merch_list').get();
-      for (final merchDoc in merchSnapshot.docs) {
-        if (merchId == merchDoc.id) {
-          list.add(
-            Shop(
-              id: merchDoc.id,
-              name: shopDoc['shop_name'],
-              merchList: [
-                Merch(
-                  id: merchId,
-                  name: merchDoc['name'],
-                  minPrice: double.parse(merchDoc['minPrice'].toString()),
-                  maxPrice: double.parse(merchDoc['maxPrice'].toString()),
-                ),
-              ],
+      final merchDoc = await instance
+          .collection('shop_list')
+          .doc(shopDoc.id)
+          .collection('merch_list')
+          .doc(merchId)
+          .get();
+      try {
+        list.add(
+          Shop(
+            id: shopDoc.id,
+            name: shopDoc['shop_name'],
+            merchList: [
+              Merch(
+                id: merchId,
+                name: merchDoc['name'],
+                // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
+                minPrice: double.parse(merchDoc['minPrice'].toString()),
+                maxPrice: double.parse(merchDoc['maxPrice'].toString()),
+              ),
+            ],
+          ),
+        );
+      } catch (e) {
+        log(e.toString());
+      }
+    }
+
+    return list;
+  }
+
+  @override
+  Future<List<Shop>> fetchShopListFromMerchList(List<String> merchIdList) async {
+    final List<Shop> list = [];
+    final instance = FirebaseFirestore.instance;
+    final shopSnapshot = await instance.collection('shop_list').get();
+
+    for (final shopDoc in shopSnapshot.docs) {
+      final List<Merch> merchList = [];
+      for(final merchId in merchIdList) {
+        final merchDoc = await instance
+            .collection('shop_list')
+            .doc(shopDoc.id)
+            .collection('merch_list')
+            .doc(merchId)
+            .get();
+        try {
+          merchList.add(
+            Merch(
+              id: merchId,
+              name: merchDoc['name'],
+              // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
+              minPrice: double.parse(merchDoc['minPrice'].toString()),
+              maxPrice: double.parse(merchDoc['maxPrice'].toString()),
             ),
           );
+        } catch (e) {
+          log(e.toString());
         }
       }
+      list.add(
+        Shop(
+          id: shopDoc.id,
+          name: shopDoc['shop_name'],
+          merchList: merchList,
+        ),
+      );
     }
 
     return list;
@@ -142,6 +191,11 @@ class DummyShopRepository implements ShopRepository {
 
   @override
   Future<List<Shop>> fetchShopListFromMerch(String merchName) {
+    return fetchShopList();
+  }
+
+  @override
+  Future<List<Shop>> fetchShopListFromMerchList(List<String> merchIdList) {
     return fetchShopList();
   }
 }

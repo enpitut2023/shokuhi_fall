@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/repository/merch_repository.dart';
 import 'package:ketchy/ui/home/merch_list/merch_tile.dart';
 import 'package:ketchy/ui/home/shop_list/shop_list.dart';
+import 'package:ketchy/ui/widgets/async_value_widget.dart';
+import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../model/merch.dart';
@@ -10,69 +12,77 @@ import '../../../model/merch.dart';
 part 'merch_list.g.dart';
 
 @riverpod
-Future<List<Merch>> merchList(MerchListRef ref, {String? shopId}) async {
-  if (shopId == null) {
-    return ref.read(merchRepositoryProvider).fetchMerchList();
-  } else {
-    return ref.read(merchRepositoryProvider).fetchMerchListFromShop(shopId);
+Future<List<Merch>> merchList(MerchListRef ref) async {
+  return ref.read(merchRepositoryProvider).fetchMerchList();
+}
+
+@riverpod
+class SelectedMerchList extends _$SelectedMerchList {
+  @override
+  List<Merch> build() => [];
+
+  void add(Merch merch) {
+    state = [...state, merch];
+  }
+
+  void remove(Merch merch) {
+    state = state.where((element) => element.id != merch.id).toList();
+  }
+
+  void toggle(Merch merch) {
+    if (state.contains(merch)) {
+      remove(merch);
+    } else {
+      add(merch);
+    }
   }
 }
 
 class MerchList extends ConsumerWidget {
-  const MerchList({super.key, this.shopId});
-
-  final String? shopId;
+  const MerchList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final merchList = ref.watch(merchListProvider(shopId: shopId));
-
+    final merchList = ref.watch(merchListProvider);
+    final selectedMerchList = ref.watch(selectedMerchListProvider);
+    final selectedMerchListNotifier =
+        ref.read(selectedMerchListProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('商品一覧'),
-      ),
-      body: merchList.when(
-        data: (data) => _whenData(context, data),
-        error: (error, stackTrace) => _whenError(error, stackTrace),
-        loading: () => _whenLoading(),
-      ),
-    );
-  }
-
-  Widget _whenData(BuildContext context, List<Merch> merchList) {
-    return ListView(
-      children: [
-        for (final merch in merchList)
-          MerchTile(
-            merch,
-            onTap: () {
+        title: Text('商品一覧: ${selectedMerchList.length}件選択中'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ShopList(
-                    merchId: merch.id,
-                    merchName: merch.name,
+                    merchIdList: selectedMerchList.map((e) => e.id).toList(),
+                    merchName: selectedMerchList.map((e) => e.name).join(','),
                   ),
                 ),
               );
             },
-          )
-      ],
-    );
-  }
-
-  Widget _whenError(Object error, StackTrace stackTrace) {
-    return Column(
-      children: [
-        SelectableText(error.toString()),
-        SelectableText(stackTrace.toString()),
-      ],
-    );
-  }
-
-  Widget _whenLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
+          ),
+        ],
+      ),
+      body: AsyncValueWidget(
+        value: merchList,
+        builder: (data) => ListView.separated(
+          separatorBuilder: (context, index) => const ListDivider(),
+          itemCount: data.length,
+          itemBuilder: (context, index) => MerchTile(
+            data[index],
+            onTap: () => selectedMerchListNotifier.toggle(data[index]),
+            trailing: Checkbox(
+              value: selectedMerchList.contains(data[index]),
+              onChanged: (value) =>
+                  selectedMerchListNotifier.toggle(data[index]),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
