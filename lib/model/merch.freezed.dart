@@ -22,10 +22,10 @@ Merch _$MerchFromJson(Map<String, dynamic> json) {
 mixin _$Merch {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  double get minPrice => throw _privateConstructorUsedError; // 最低価格
-  double get maxPrice => throw _privateConstructorUsedError; // 最高価格
-  double get averagePrice => throw _privateConstructorUsedError; // 平均価格
-  String get description => throw _privateConstructorUsedError;
+  double? get minPrice => throw _privateConstructorUsedError; // 最低価格
+  double? get maxPrice => throw _privateConstructorUsedError; // 最高価格
+  double? get averagePrice => throw _privateConstructorUsedError; // 平均価格
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,10 +40,10 @@ abstract class $MerchCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      double minPrice,
-      double maxPrice,
-      double averagePrice,
-      String description});
+      double? minPrice,
+      double? maxPrice,
+      double? averagePrice,
+      String? description});
 }
 
 /// @nodoc
@@ -61,10 +61,10 @@ class _$MerchCopyWithImpl<$Res, $Val extends Merch>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? minPrice = null,
-    Object? maxPrice = null,
-    Object? averagePrice = null,
-    Object? description = null,
+    Object? minPrice = freezed,
+    Object? maxPrice = freezed,
+    Object? averagePrice = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,22 +75,22 @@ class _$MerchCopyWithImpl<$Res, $Val extends Merch>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minPrice: null == minPrice
+      minPrice: freezed == minPrice
           ? _value.minPrice
           : minPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      maxPrice: null == maxPrice
+              as double?,
+      maxPrice: freezed == maxPrice
           ? _value.maxPrice
           : maxPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      averagePrice: null == averagePrice
+              as double?,
+      averagePrice: freezed == averagePrice
           ? _value.averagePrice
           : averagePrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      description: null == description
+              as double?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -105,10 +105,10 @@ abstract class _$$MerchImplCopyWith<$Res> implements $MerchCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      double minPrice,
-      double maxPrice,
-      double averagePrice,
-      String description});
+      double? minPrice,
+      double? maxPrice,
+      double? averagePrice,
+      String? description});
 }
 
 /// @nodoc
@@ -124,10 +124,10 @@ class __$$MerchImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? minPrice = null,
-    Object? maxPrice = null,
-    Object? averagePrice = null,
-    Object? description = null,
+    Object? minPrice = freezed,
+    Object? maxPrice = freezed,
+    Object? averagePrice = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$MerchImpl(
       id: null == id
@@ -138,22 +138,22 @@ class __$$MerchImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minPrice: null == minPrice
+      minPrice: freezed == minPrice
           ? _value.minPrice
           : minPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      maxPrice: null == maxPrice
+              as double?,
+      maxPrice: freezed == maxPrice
           ? _value.maxPrice
           : maxPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      averagePrice: null == averagePrice
+              as double?,
+      averagePrice: freezed == averagePrice
           ? _value.averagePrice
           : averagePrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      description: null == description
+              as double?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -164,10 +164,10 @@ class _$MerchImpl implements _Merch {
   const _$MerchImpl(
       {required this.id,
       required this.name,
-      required this.minPrice,
-      required this.maxPrice,
-      required this.averagePrice,
-      required this.description});
+      this.minPrice,
+      this.maxPrice,
+      this.averagePrice,
+      this.description});
 
   factory _$MerchImpl.fromJson(Map<String, dynamic> json) =>
       _$$MerchImplFromJson(json);
@@ -177,16 +177,16 @@ class _$MerchImpl implements _Merch {
   @override
   final String name;
   @override
-  final double minPrice;
+  final double? minPrice;
 // 最低価格
   @override
-  final double maxPrice;
+  final double? maxPrice;
 // 最高価格
   @override
-  final double averagePrice;
+  final double? averagePrice;
 // 平均価格
   @override
-  final String description;
+  final String? description;
 
   @override
   String toString() {
@@ -233,10 +233,10 @@ abstract class _Merch implements Merch {
   const factory _Merch(
       {required final String id,
       required final String name,
-      required final double minPrice,
-      required final double maxPrice,
-      required final double averagePrice,
-      required final String description}) = _$MerchImpl;
+      final double? minPrice,
+      final double? maxPrice,
+      final double? averagePrice,
+      final String? description}) = _$MerchImpl;
 
   factory _Merch.fromJson(Map<String, dynamic> json) = _$MerchImpl.fromJson;
 
@@ -245,13 +245,13 @@ abstract class _Merch implements Merch {
   @override
   String get name;
   @override
-  double get minPrice;
+  double? get minPrice;
   @override // 最低価格
-  double get maxPrice;
+  double? get maxPrice;
   @override // 最高価格
-  double get averagePrice;
+  double? get averagePrice;
   @override // 平均価格
-  String get description;
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$MerchImplCopyWith<_$MerchImpl> get copyWith =>

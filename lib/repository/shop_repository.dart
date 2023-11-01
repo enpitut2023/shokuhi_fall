@@ -37,7 +37,7 @@ class ShopRepositoryImpl implements ShopRepository {
     for (var doc in snapshot.docs) {
       // TODO: docからデータを取得してShopを作成
       final shop = Shop(
-        id: "1",
+        id: doc.id,
         name: doc['shop_name'],
         merchList: [],
       );
@@ -66,8 +66,6 @@ class ShopRepositoryImpl implements ShopRepository {
                   name: merchDoc['name'],
                   minPrice: double.parse(merchDoc['minPrice'].toString()),
                   maxPrice: double.parse(merchDoc['maxPrice'].toString()),
-                  averagePrice: 0,
-                  description: '',
                 ),
               ],
             ),

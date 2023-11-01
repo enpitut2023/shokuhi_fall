@@ -9,9 +9,11 @@ class MerchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showPrice = merch.minPrice != null && merch.maxPrice != null;
     return ListTile(
       title: Text(merch.name),
-      subtitle: Text('${merch.minPrice}円 ~ ${merch.maxPrice}円'),
+      subtitle:
+          (showPrice) ? Text('${merch.minPrice}円 ~ ${merch.maxPrice}円') : null,
       onTap: onTap,
     );
   }

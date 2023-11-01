@@ -33,10 +33,6 @@ class MerchRepositoryImpl implements MerchRepository {
       final merch = Merch(
         id: doc.id,
         name: doc['name'],
-        minPrice: 1, // TODO: 価格を取得する
-        maxPrice: 1,
-        averagePrice: 1,
-        description: '',
       );
       list.add(merch);
     }
