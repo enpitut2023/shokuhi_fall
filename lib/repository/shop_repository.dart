@@ -49,30 +49,23 @@ class ShopRepositoryImpl implements ShopRepository {
   @override
   Future<List<Shop>> fetchShopListFromMerch(String merchId) async {
     final List<Shop> list = [];
+    final instance = FirebaseFirestore.instance;
+    final shopSnapshot = await instance.collection('shop_list').get();
 
-    for (final shopId in [
-      '64F4jTheLRdoPay7Odma',
-      'IW2LwCdI1ikKTEHsS4JK',
-      'OUIISO2PdczSx3KHC1Fo',
-      'fbLR0cv4pl8M8qEwsCU0'
-    ]) {
-      final shopSnapshot =
-          FirebaseFirestore.instance.collection('shop_list').doc(shopId);
-      final snapshot = await shopSnapshot.collection('merch_list').get();
-      for (final doc in snapshot.docs) {
-        if (merchId == doc.id) {
-          final merchSnapshot =
-              await shopSnapshot.collection('merch_list').doc(merchId).get();
+    for (final shopDoc in shopSnapshot.docs) {
+      final merchSnapshot = await instance.collection('shop_list').doc(shopDoc.id).collection('merch_list').get();
+      for (final merchDoc in merchSnapshot.docs) {
+        if (merchId == merchDoc.id) {
           list.add(
             Shop(
-              id: doc.id,
-              name: (await shopSnapshot.get())['shop_name'],
+              id: merchDoc.id,
+              name: shopDoc['shop_name'],
               merchList: [
                 Merch(
                   id: merchId,
-                  name: merchSnapshot['name'],
-                  minPrice: double.parse(merchSnapshot['minPrice'].toString()),
-                  maxPrice: double.parse(merchSnapshot['maxPrice'].toString()),
+                  name: merchDoc['name'],
+                  minPrice: double.parse(merchDoc['minPrice'].toString()),
+                  maxPrice: double.parse(merchDoc['maxPrice'].toString()),
                   averagePrice: 0,
                   description: '',
                 ),
