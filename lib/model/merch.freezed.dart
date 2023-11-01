@@ -20,7 +20,7 @@ Merch _$MerchFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Merch {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   double get minPrice => throw _privateConstructorUsedError; // 最低価格
   double get maxPrice => throw _privateConstructorUsedError; // 最高価格
@@ -38,7 +38,7 @@ abstract class $MerchCopyWith<$Res> {
       _$MerchCopyWithImpl<$Res, Merch>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       double minPrice,
       double maxPrice,
@@ -70,7 +70,7 @@ class _$MerchCopyWithImpl<$Res, $Val extends Merch>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$MerchImplCopyWith<$Res> implements $MerchCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       double minPrice,
       double maxPrice,
@@ -133,7 +133,7 @@ class __$$MerchImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -173,7 +173,7 @@ class _$MerchImpl implements _Merch {
       _$$MerchImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   @override
@@ -231,7 +231,7 @@ class _$MerchImpl implements _Merch {
 
 abstract class _Merch implements Merch {
   const factory _Merch(
-      {required final int id,
+      {required final String id,
       required final String name,
       required final double minPrice,
       required final double maxPrice,
@@ -241,7 +241,7 @@ abstract class _Merch implements Merch {
   factory _Merch.fromJson(Map<String, dynamic> json) = _$MerchImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override

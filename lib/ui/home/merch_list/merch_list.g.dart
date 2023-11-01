@@ -6,7 +6,7 @@ part of 'merch_list.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$merchListHash() => r'c293901ecefe5e083343788c19a09f2cd012e33a';
+String _$merchListHash() => r'daabf24fbc7ed7f0f0bc6629e75eca2a03f3a9d8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,7 +40,7 @@ class MerchListFamily extends Family<AsyncValue<List<Merch>>> {
 
   /// See also [merchList].
   MerchListProvider call({
-    int? shopId,
+    String? shopId,
   }) {
     return MerchListProvider(
       shopId: shopId,
@@ -75,7 +75,7 @@ class MerchListFamily extends Family<AsyncValue<List<Merch>>> {
 class MerchListProvider extends AutoDisposeFutureProvider<List<Merch>> {
   /// See also [merchList].
   MerchListProvider({
-    int? shopId,
+    String? shopId,
   }) : this._internal(
           (ref) => merchList(
             ref as MerchListRef,
@@ -102,7 +102,7 @@ class MerchListProvider extends AutoDisposeFutureProvider<List<Merch>> {
     required this.shopId,
   }) : super.internal();
 
-  final int? shopId;
+  final String? shopId;
 
   @override
   Override overrideWith(
@@ -143,7 +143,7 @@ class MerchListProvider extends AutoDisposeFutureProvider<List<Merch>> {
 
 mixin MerchListRef on AutoDisposeFutureProviderRef<List<Merch>> {
   /// The parameter `shopId` of this provider.
-  int? get shopId;
+  String? get shopId;
 }
 
 class _MerchListProviderElement
@@ -151,7 +151,7 @@ class _MerchListProviderElement
   _MerchListProviderElement(super.provider);
 
   @override
-  int? get shopId => (origin as MerchListProvider).shopId;
+  String? get shopId => (origin as MerchListProvider).shopId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

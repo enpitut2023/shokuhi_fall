@@ -7,7 +7,7 @@ part of 'shop.dart';
 // **************************************************************************
 
 _$ShopImpl _$$ShopImplFromJson(Map<String, dynamic> json) => _$ShopImpl(
-      id: json['id'] as int,
+      id: json['id'] as String,
       name: json['name'] as String,
       merchList: (json['merchList'] as List<dynamic>)
           .map((e) => Merch.fromJson(e as Map<String, dynamic>))

@@ -10,7 +10,7 @@ import '../../../model/merch.dart';
 part 'merch_list.g.dart';
 
 @riverpod
-Future<List<Merch>> merchList(MerchListRef ref, {int? shopId}) async {
+Future<List<Merch>> merchList(MerchListRef ref, {String? shopId}) async {
   if (shopId == null) {
     return ref.read(merchRepositoryProvider).fetchMerchList();
   } else {
@@ -21,7 +21,7 @@ Future<List<Merch>> merchList(MerchListRef ref, {int? shopId}) async {
 class MerchList extends ConsumerWidget {
   const MerchList({super.key, this.shopId});
 
-  final int? shopId;
+  final String? shopId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +49,10 @@ class MerchList extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ShopList(merchName: merch.name),
+                  builder: (context) => ShopList(
+                    merchId: merch.id,
+                    merchName: merch.name,
+                  ),
                 ),
               );
             },

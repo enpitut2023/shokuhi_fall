@@ -7,7 +7,7 @@ part of 'merch.dart';
 // **************************************************************************
 
 _$MerchImpl _$$MerchImplFromJson(Map<String, dynamic> json) => _$MerchImpl(
-      id: json['id'] as int,
+      id: json['id'] as String,
       name: json['name'] as String,
       minPrice: (json['minPrice'] as num).toDouble(),
       maxPrice: (json['maxPrice'] as num).toDouble(),

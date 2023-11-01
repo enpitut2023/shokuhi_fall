@@ -20,7 +20,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Shop {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<Merch> get merchList => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $ShopCopyWith<$Res> {
   factory $ShopCopyWith(Shop value, $Res Function(Shop) then) =
       _$ShopCopyWithImpl<$Res, Shop>;
   @useResult
-  $Res call({int id, String name, List<Merch> merchList});
+  $Res call({String id, String name, List<Merch> merchList});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,7 @@ abstract class _$$ShopImplCopyWith<$Res> implements $ShopCopyWith<$Res> {
       __$$ShopImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, List<Merch> merchList});
+  $Res call({String id, String name, List<Merch> merchList});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class __$$ShopImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ class _$ShopImpl implements _Shop {
       _$$ShopImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   final List<Merch> _merchList;
@@ -173,14 +173,14 @@ class _$ShopImpl implements _Shop {
 
 abstract class _Shop implements Shop {
   const factory _Shop(
-      {required final int id,
+      {required final String id,
       required final String name,
       required final List<Merch> merchList}) = _$ShopImpl;
 
   factory _Shop.fromJson(Map<String, dynamic> json) = _$ShopImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override

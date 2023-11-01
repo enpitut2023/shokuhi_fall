@@ -7,7 +7,7 @@ part 'merch.g.dart';
 @freezed
 abstract class Merch with _$Merch {
   const factory Merch({
-    required int id,
+    required String id,
     required String name,
     required double minPrice, // 最低価格
     required double maxPrice, // 最高価格

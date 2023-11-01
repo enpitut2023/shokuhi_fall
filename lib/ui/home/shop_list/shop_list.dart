@@ -9,28 +9,29 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'shop_list.g.dart';
 
 @riverpod
-Future<List<Shop>> shopList(ShopListRef ref, {String? merchName}) async {
-  if (merchName == null) {
+Future<List<Shop>> shopList(ShopListRef ref, {String? merchId}) async {
+  if (merchId == null) {
     return ref.read(shopRepositoryProvider).fetchShopList();
   } else {
-    return ref.read(shopRepositoryProvider).fetchShopListFromMerch(merchName);
+    return ref.read(shopRepositoryProvider).fetchShopListFromMerch(merchId);
   }
 }
 
 class ShopList extends ConsumerWidget {
-  const ShopList({super.key, this.merchName});
+  const ShopList({super.key, this.merchId, this.merchName});
 
+  final String? merchId;
   final String? merchName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shopList = ref.watch(shopListProvider(merchName: merchName));
+    final shopList = ref.watch(shopListProvider(merchId: merchId));
     return Scaffold(
       appBar: AppBar(
         title: Text(merchName ?? '店舗一覧'),
       ),
       body: shopList.when(
-        data: (data) => _whenData(context, data, merchName),
+        data: (data) => _whenData(context, data, merchId, merchName),
         error: (error, stackTrace) => _whenError(error, stackTrace),
         loading: () => _whenLoading(),
       ),
@@ -38,7 +39,7 @@ class ShopList extends ConsumerWidget {
   }
 
   Widget _whenData(
-      BuildContext context, List<Shop> shopList, String? merchName) {
+      BuildContext context, List<Shop> shopList, String? merchId, String? merchName) {
     return ListView(
       children: [
         for (final shop in shopList)
