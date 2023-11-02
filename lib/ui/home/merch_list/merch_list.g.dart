@@ -6,7 +6,7 @@ part of 'merch_list.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$merchListHash() => r'1610d8830306a44f4900430f407bb21c6ab0fc24';
+String _$merchListHash() => r'3d70610d1f6b61691a85f674d20faebf468ee9f6';
 
 /// See also [merchList].
 @ProviderFor(merchList)

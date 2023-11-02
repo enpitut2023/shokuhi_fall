@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ketchy/repository/merch_repository.dart';
+import 'package:ketchy/repository/merch_outline_repository.dart';
 import 'package:ketchy/ui/home/merch_list/merch_detail_tile.dart';
 import 'package:ketchy/ui/home/merch_list/merch_outline_tile.dart';
 import 'package:ketchy/ui/home/shop_list/shop_list.dart';
@@ -14,7 +14,7 @@ part 'merch_list.g.dart';
 
 @riverpod
 Future<List<MerchOutline>> merchList(MerchListRef ref) async {
-  return ref.read(merchRepositoryProvider).fetchMerchList();
+  return ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
 }
 
 @riverpod

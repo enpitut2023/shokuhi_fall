@@ -61,25 +61,22 @@ class ShopRepositoryImpl implements ShopRepository {
           .collection('merch_list')
           .doc(merchId)
           .get();
-      try {
-        list.add(
-          Shop(
-            id: shopDoc.id,
-            name: shopDoc['shop_name'],
-            merchList: [
-              MerchDetail(
-                id: merchId,
-                name: merchDoc['name'],
-                // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
-                minPrice: double.parse(merchDoc['minPrice'].toString()),
-                maxPrice: double.parse(merchDoc['maxPrice'].toString()),
-              ),
-            ],
-          ),
-        );
-      } catch (e) {
-        log(e.toString());
-      }
+      if (!merchDoc.exists) continue;
+      list.add(
+        Shop(
+          id: shopDoc.id,
+          name: shopDoc['shop_name'],
+          merchList: [
+            MerchDetail(
+              id: merchId,
+              name: merchDoc['name'],
+              // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
+              minPrice: double.parse(merchDoc['minPrice'].toString()),
+              maxPrice: double.parse(merchDoc['maxPrice'].toString()),
+            ),
+          ],
+        ),
+      );
     }
 
     return list;
@@ -101,19 +98,17 @@ class ShopRepositoryImpl implements ShopRepository {
             .collection('merch_list')
             .doc(merchId)
             .get();
-        try {
-          merchList.add(
-            MerchDetail(
-              id: merchId,
-              name: merchDoc['name'],
-              // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
-              minPrice: double.parse(merchDoc['minPrice'].toString()),
-              maxPrice: double.parse(merchDoc['maxPrice'].toString()),
-            ),
-          );
-        } catch (e) {
-          log(e.toString());
-        }
+        if (!merchDoc.exists) continue;
+
+        merchList.add(
+          MerchDetail(
+            id: merchId,
+            name: merchDoc['name'],
+            // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
+            minPrice: double.parse(merchDoc['minPrice'].toString()),
+            maxPrice: double.parse(merchDoc['maxPrice'].toString()),
+          ),
+        );
       }
       list.add(
         Shop(
