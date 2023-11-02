@@ -10,7 +10,7 @@ abstract class Shop with _$Shop {
   const factory Shop({
     required String id,
     required String name,
-    required List<Merch> merchList,
+    required List<MerchDetail> merchList,
   }) = _Shop;
 
   factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);

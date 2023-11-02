@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/repository/merch_repository.dart';
-import 'package:ketchy/ui/home/merch_list/merch_tile.dart';
+import 'package:ketchy/ui/home/merch_list/merch_detail_tile.dart';
+import 'package:ketchy/ui/home/merch_list/merch_outline_tile.dart';
 import 'package:ketchy/ui/home/shop_list/shop_list.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
 import 'package:ketchy/ui/widgets/list_divider.dart';
@@ -12,24 +13,24 @@ import '../../../model/merch.dart';
 part 'merch_list.g.dart';
 
 @riverpod
-Future<List<Merch>> merchList(MerchListRef ref) async {
+Future<List<MerchOutline>> merchList(MerchListRef ref) async {
   return ref.read(merchRepositoryProvider).fetchMerchList();
 }
 
 @riverpod
 class SelectedMerchList extends _$SelectedMerchList {
   @override
-  List<Merch> build() => [];
+  List<MerchOutline> build() => [];
 
-  void add(Merch merch) {
+  void add(MerchOutline merch) {
     state = [...state, merch];
   }
 
-  void remove(Merch merch) {
+  void remove(MerchOutline merch) {
     state = state.where((element) => element.id != merch.id).toList();
   }
 
-  void toggle(Merch merch) {
+  void toggle(MerchOutline merch) {
     if (state.contains(merch)) {
       remove(merch);
     } else {
@@ -72,7 +73,7 @@ class MerchList extends ConsumerWidget {
         builder: (data) => ListView.separated(
           separatorBuilder: (context, index) => const ListDivider(),
           itemCount: data.length,
-          itemBuilder: (context, index) => MerchTile(
+          itemBuilder: (context, index) => MerchOutlineTile(
             data[index],
             onTap: () => selectedMerchListNotifier.toggle(data[index]),
             trailing: Checkbox(

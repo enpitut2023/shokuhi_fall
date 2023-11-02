@@ -13,7 +13,7 @@ class ShopTile extends StatelessWidget {
 
   final Shop shop;
   final VoidCallback? onTap;
-  final List<Merch> merchList;
+  final List<MerchDetail> merchList;
 
   @override
   Widget build(BuildContext context) {

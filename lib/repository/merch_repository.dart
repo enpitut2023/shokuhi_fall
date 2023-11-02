@@ -12,46 +12,35 @@ MerchRepository merchRepository(MerchRepositoryRef ref) =>
     MerchRepositoryImpl();
 
 abstract class MerchRepository {
-  Future<Merch> fetchMerch(String merchId);
+  Future<MerchOutline> fetchMerch(String merchId);
 
-  Future<List<Merch>> fetchMerchList();
+  Future<List<MerchOutline>> fetchMerchList();
 
-  Future<List<Merch>> fetchMerchListFromShop(String shopId);
+  Future<List<MerchOutline>> fetchMerchListFromShop(String shopId);
 }
 
 class MerchRepositoryImpl implements MerchRepository {
   @override
-  Future<Merch> fetchMerch(String merchId) async {
+  Future<MerchOutline> fetchMerch(String merchId) async {
     // TODO: implement fetchMerchList
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Merch>> fetchMerchList() async {
+  Future<List<MerchOutline>> fetchMerchList() async {
     final snapshot =
         await FirebaseFirestore.instance.collection('merch_list').get();
-    final List<Merch> list = [];
+    final List<MerchOutline> list = [];
     for (var doc in snapshot.docs) {
-      var merch = Merch(
-        id: doc.id,
-        name: doc['name'],
-      );
-
-      try {
-        merch = merch.copyWith(
-          description: doc['description'],
-        );
-      } catch (e) { // 存在しない場合は無視
-        log(e.toString());
-      }
-
+      final json = doc.data()..['id'] = doc.id;
+      var merch = MerchOutline.fromJson(json);
       list.add(merch);
     }
     return list;
   }
 
   @override
-  Future<List<Merch>> fetchMerchListFromShop(String shopId) {
+  Future<List<MerchOutline>> fetchMerchListFromShop(String shopId) {
     // TODO: implement fetchMerchListFromShop
     throw UnimplementedError();
   }

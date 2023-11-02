@@ -67,7 +67,7 @@ class ShopRepositoryImpl implements ShopRepository {
             id: shopDoc.id,
             name: shopDoc['shop_name'],
             merchList: [
-              Merch(
+              MerchDetail(
                 id: merchId,
                 name: merchDoc['name'],
                 // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
@@ -86,14 +86,15 @@ class ShopRepositoryImpl implements ShopRepository {
   }
 
   @override
-  Future<List<Shop>> fetchShopListFromMerchList(List<String> merchIdList) async {
+  Future<List<Shop>> fetchShopListFromMerchList(
+      List<String> merchIdList) async {
     final List<Shop> list = [];
     final instance = FirebaseFirestore.instance;
     final shopSnapshot = await instance.collection('shop_list').get();
 
     for (final shopDoc in shopSnapshot.docs) {
-      final List<Merch> merchList = [];
-      for(final merchId in merchIdList) {
+      final List<MerchDetail> merchList = [];
+      for (final merchId in merchIdList) {
         final merchDoc = await instance
             .collection('shop_list')
             .doc(shopDoc.id)
@@ -102,7 +103,7 @@ class ShopRepositoryImpl implements ShopRepository {
             .get();
         try {
           merchList.add(
-            Merch(
+            MerchDetail(
               id: merchId,
               name: merchDoc['name'],
               // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
@@ -124,78 +125,5 @@ class ShopRepositoryImpl implements ShopRepository {
     }
 
     return list;
-  }
-}
-
-class DummyShopRepository implements ShopRepository {
-  @override
-  Future<Shop> fetchShop(String shopId) async {
-    return _ropia.copyWith(id: shopId);
-  }
-
-  @override
-  Future<List<Shop>> fetchShopList() {
-    return Future.value(
-      [
-        for (final name in ["ロピア", "トライアル", "カスミ"]) _ropia.copyWith(name: name),
-        _idealShop,
-      ],
-    );
-  }
-
-  final Shop _idealShop = const Shop(
-    id: "0",
-    name: '理想の店',
-    merchList: [
-      Merch(
-        id: "1",
-        name: "豚小間切れ",
-        minPrice: 1,
-        maxPrice: 10,
-        averagePrice: 5,
-        description: "100gあたりの値段。多いほどグラム単価は安い",
-      ),
-      Merch(
-        id: "1",
-        name: "5円",
-        minPrice: 1,
-        maxPrice: 1,
-        averagePrice: 1,
-        description: "5円なのに1円",
-      ),
-    ],
-  );
-
-  final Shop _ropia = const Shop(
-    id: "0",
-    name: 'ロピア',
-    merchList: [
-      Merch(
-        id: "1",
-        name: "豚小間切れ",
-        minPrice: 89,
-        maxPrice: 110,
-        averagePrice: (110 + 89) / 2,
-        description: "100gあたりの値段。多いほどグラム単価は安い",
-      ),
-      Merch(
-        id: "2",
-        name: "アボカド",
-        minPrice: 98,
-        maxPrice: 130,
-        averagePrice: (130 + 98) / 2,
-        description: "月曜日は安い",
-      ),
-    ],
-  );
-
-  @override
-  Future<List<Shop>> fetchShopListFromMerch(String merchName) {
-    return fetchShopList();
-  }
-
-  @override
-  Future<List<Shop>> fetchShopListFromMerchList(List<String> merchIdList) {
-    return fetchShopList();
   }
 }
