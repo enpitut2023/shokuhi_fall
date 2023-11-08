@@ -4,7 +4,7 @@ import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../home/merch_list/merch_tile.dart';
+import '../home/merch_list/merch_detail_tile.dart';
 
 class ShopDetail extends ConsumerWidget {
   const ShopDetail({super.key, required this.shop});
@@ -19,7 +19,7 @@ class ShopDetail extends ConsumerWidget {
       ),
       body: ListView(
         children: [
-          for (final merch in shop.merchList) MerchTile(merch),
+          for (final merch in shop.merchList) MerchDetailTile(merch),
         ],
       ),
     );

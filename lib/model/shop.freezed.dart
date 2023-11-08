@@ -20,9 +20,9 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Shop {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<Merch> get merchList => throw _privateConstructorUsedError;
+  List<MerchDetail> get merchList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $ShopCopyWith<$Res> {
   factory $ShopCopyWith(Shop value, $Res Function(Shop) then) =
       _$ShopCopyWithImpl<$Res, Shop>;
   @useResult
-  $Res call({int id, String name, List<Merch> merchList});
+  $Res call({String id, String name, List<MerchDetail> merchList});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -66,7 +66,7 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
       merchList: null == merchList
           ? _value.merchList
           : merchList // ignore: cast_nullable_to_non_nullable
-              as List<Merch>,
+              as List<MerchDetail>,
     ) as $Val);
   }
 }
@@ -78,7 +78,7 @@ abstract class _$$ShopImplCopyWith<$Res> implements $ShopCopyWith<$Res> {
       __$$ShopImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, List<Merch> merchList});
+  $Res call({String id, String name, List<MerchDetail> merchList});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class __$$ShopImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -107,7 +107,7 @@ class __$$ShopImplCopyWithImpl<$Res>
       merchList: null == merchList
           ? _value._merchList
           : merchList // ignore: cast_nullable_to_non_nullable
-              as List<Merch>,
+              as List<MerchDetail>,
     ));
   }
 }
@@ -118,19 +118,19 @@ class _$ShopImpl implements _Shop {
   const _$ShopImpl(
       {required this.id,
       required this.name,
-      required final List<Merch> merchList})
+      required final List<MerchDetail> merchList})
       : _merchList = merchList;
 
   factory _$ShopImpl.fromJson(Map<String, dynamic> json) =>
       _$$ShopImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
-  final List<Merch> _merchList;
+  final List<MerchDetail> _merchList;
   @override
-  List<Merch> get merchList {
+  List<MerchDetail> get merchList {
     if (_merchList is EqualUnmodifiableListView) return _merchList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_merchList);
@@ -173,18 +173,18 @@ class _$ShopImpl implements _Shop {
 
 abstract class _Shop implements Shop {
   const factory _Shop(
-      {required final int id,
+      {required final String id,
       required final String name,
-      required final List<Merch> merchList}) = _$ShopImpl;
+      required final List<MerchDetail> merchList}) = _$ShopImpl;
 
   factory _Shop.fromJson(Map<String, dynamic> json) = _$ShopImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override
-  List<Merch> get merchList;
+  List<MerchDetail> get merchList;
   @override
   @JsonKey(ignore: true)
   _$$ShopImplCopyWith<_$ShopImpl> get copyWith =>

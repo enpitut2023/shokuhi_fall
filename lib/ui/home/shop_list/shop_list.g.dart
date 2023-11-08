@@ -6,7 +6,7 @@ part of 'shop_list.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shopListHash() => r'e4c0e63913a115f6704f0c72a6bbf33a62bbedca';
+String _$shopListHash() => r'ca969d4abce975c1c423d5e20fd6ab9072aad671';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -39,11 +39,11 @@ class ShopListFamily extends Family<AsyncValue<List<Shop>>> {
   const ShopListFamily();
 
   /// See also [shopList].
-  ShopListProvider call({
-    String? merchName,
-  }) {
+  ShopListProvider call(
+    List<String> merchIdList,
+  ) {
     return ShopListProvider(
-      merchName: merchName,
+      merchIdList,
     );
   }
 
@@ -52,7 +52,7 @@ class ShopListFamily extends Family<AsyncValue<List<Shop>>> {
     covariant ShopListProvider provider,
   ) {
     return call(
-      merchName: provider.merchName,
+      provider.merchIdList,
     );
   }
 
@@ -74,12 +74,12 @@ class ShopListFamily extends Family<AsyncValue<List<Shop>>> {
 /// See also [shopList].
 class ShopListProvider extends AutoDisposeFutureProvider<List<Shop>> {
   /// See also [shopList].
-  ShopListProvider({
-    String? merchName,
-  }) : this._internal(
+  ShopListProvider(
+    List<String> merchIdList,
+  ) : this._internal(
           (ref) => shopList(
             ref as ShopListRef,
-            merchName: merchName,
+            merchIdList,
           ),
           from: shopListProvider,
           name: r'shopListProvider',
@@ -89,7 +89,7 @@ class ShopListProvider extends AutoDisposeFutureProvider<List<Shop>> {
                   : _$shopListHash,
           dependencies: ShopListFamily._dependencies,
           allTransitiveDependencies: ShopListFamily._allTransitiveDependencies,
-          merchName: merchName,
+          merchIdList: merchIdList,
         );
 
   ShopListProvider._internal(
@@ -99,10 +99,10 @@ class ShopListProvider extends AutoDisposeFutureProvider<List<Shop>> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.merchName,
+    required this.merchIdList,
   }) : super.internal();
 
-  final String? merchName;
+  final List<String> merchIdList;
 
   @override
   Override overrideWith(
@@ -117,7 +117,7 @@ class ShopListProvider extends AutoDisposeFutureProvider<List<Shop>> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        merchName: merchName,
+        merchIdList: merchIdList,
       ),
     );
   }
@@ -129,21 +129,21 @@ class ShopListProvider extends AutoDisposeFutureProvider<List<Shop>> {
 
   @override
   bool operator ==(Object other) {
-    return other is ShopListProvider && other.merchName == merchName;
+    return other is ShopListProvider && other.merchIdList == merchIdList;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, merchName.hashCode);
+    hash = _SystemHash.combine(hash, merchIdList.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin ShopListRef on AutoDisposeFutureProviderRef<List<Shop>> {
-  /// The parameter `merchName` of this provider.
-  String? get merchName;
+  /// The parameter `merchIdList` of this provider.
+  List<String> get merchIdList;
 }
 
 class _ShopListProviderElement
@@ -151,7 +151,7 @@ class _ShopListProviderElement
   _ShopListProviderElement(super.provider);
 
   @override
-  String? get merchName => (origin as ShopListProvider).merchName;
+  List<String> get merchIdList => (origin as ShopListProvider).merchIdList;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

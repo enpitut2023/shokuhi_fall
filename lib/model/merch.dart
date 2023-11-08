@@ -5,15 +5,24 @@ part 'merch.freezed.dart';
 part 'merch.g.dart';
 
 @freezed
-abstract class Merch with _$Merch {
-  const factory Merch({
-    required int id,
+abstract class MerchOutline with _$MerchOutline {
+  const factory MerchOutline({
+    required String id,
     required String name,
-    required double minPrice, // 最低価格
-    required double maxPrice, // 最高価格
-    required double averagePrice, // 平均価格
-    required String description, // 商品説明（「100gあたりの値段」など）
+    String? description, // 商品説明（「100gあたりの値段」など）
   }) = _Merch;
 
-  factory Merch.fromJson(Map<String, dynamic> json) => _$MerchFromJson(json);
+  factory MerchOutline.fromJson(Map<String, dynamic> json) => _$MerchOutlineFromJson(json);
+}
+
+@freezed
+abstract class MerchDetail with _$MerchDetail {
+  const factory MerchDetail({
+    required String id,
+    required String name,
+    double? minPrice, // 最低価格
+    double? maxPrice, // 最高価格
+  }) = _MerchDetail;
+
+  factory MerchDetail.fromJson(Map<String, dynamic> json) => _$MerchDetailFromJson(json);
 }

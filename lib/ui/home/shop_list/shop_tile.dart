@@ -7,28 +7,27 @@ class ShopTile extends StatelessWidget {
   const ShopTile({
     super.key,
     required this.shop,
-    this.merchName,
     this.onTap,
+    this.merchList = const [],
   });
 
   final Shop shop;
   final VoidCallback? onTap;
-  final String? merchName;
+  final List<MerchDetail> merchList;
 
   @override
   Widget build(BuildContext context) {
-    Merch? merch;
-    for(final m in shop.merchList) {
-      if (m.name == merchName) {
-        merch = m;
-        break;
-      }
-    }
-
     return ListTile(
       onTap: onTap,
       title: Text(shop.name),
-      subtitle: Text('$merchName: ${merch?.minPrice}円〜${merch?.maxPrice}円'),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for(final merch in merchList)
+            Text('${merch.name}: ${merch.minPrice}円〜${merch.maxPrice}円'),
+        ],
+      ),
+      isThreeLine: merchList.length >= 2,
     );
   }
 }
