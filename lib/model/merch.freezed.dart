@@ -22,6 +22,7 @@ MerchOutline _$MerchOutlineFromJson(Map<String, dynamic> json) {
 mixin _$MerchOutline {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get tag => throw _privateConstructorUsedError; // タグ（「野菜」など）
   String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ abstract class $MerchOutlineCopyWith<$Res> {
           MerchOutline value, $Res Function(MerchOutline) then) =
       _$MerchOutlineCopyWithImpl<$Res, MerchOutline>;
   @useResult
-  $Res call({String id, String name, String? description});
+  $Res call({String id, String name, String tag, String? description});
 }
 
 /// @nodoc
@@ -54,6 +55,7 @@ class _$MerchOutlineCopyWithImpl<$Res, $Val extends MerchOutline>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? tag = null,
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
@@ -64,6 +66,10 @@ class _$MerchOutlineCopyWithImpl<$Res, $Val extends MerchOutline>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
@@ -81,7 +87,7 @@ abstract class _$$MerchImplCopyWith<$Res>
       __$$MerchImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String? description});
+  $Res call({String id, String name, String tag, String? description});
 }
 
 /// @nodoc
@@ -97,6 +103,7 @@ class __$$MerchImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? tag = null,
     Object? description = freezed,
   }) {
     return _then(_$MerchImpl(
@@ -107,6 +114,10 @@ class __$$MerchImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      tag: null == tag
+          ? _value.tag
+          : tag // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
@@ -119,7 +130,11 @@ class __$$MerchImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MerchImpl implements _Merch {
-  const _$MerchImpl({required this.id, required this.name, this.description});
+  const _$MerchImpl(
+      {required this.id,
+      required this.name,
+      required this.tag,
+      this.description});
 
   factory _$MerchImpl.fromJson(Map<String, dynamic> json) =>
       _$$MerchImplFromJson(json);
@@ -129,11 +144,14 @@ class _$MerchImpl implements _Merch {
   @override
   final String name;
   @override
+  final String tag;
+// タグ（「野菜」など）
+  @override
   final String? description;
 
   @override
   String toString() {
-    return 'MerchOutline(id: $id, name: $name, description: $description)';
+    return 'MerchOutline(id: $id, name: $name, tag: $tag, description: $description)';
   }
 
   @override
@@ -143,13 +161,14 @@ class _$MerchImpl implements _Merch {
             other is _$MerchImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.description, description) ||
                 other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description);
+  int get hashCode => Object.hash(runtimeType, id, name, tag, description);
 
   @JsonKey(ignore: true)
   @override
@@ -169,6 +188,7 @@ abstract class _Merch implements MerchOutline {
   const factory _Merch(
       {required final String id,
       required final String name,
+      required final String tag,
       final String? description}) = _$MerchImpl;
 
   factory _Merch.fromJson(Map<String, dynamic> json) = _$MerchImpl.fromJson;
@@ -178,6 +198,8 @@ abstract class _Merch implements MerchOutline {
   @override
   String get name;
   @override
+  String get tag;
+  @override // タグ（「野菜」など）
   String? get description;
   @override
   @JsonKey(ignore: true)
