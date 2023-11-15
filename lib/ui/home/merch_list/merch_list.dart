@@ -16,7 +16,29 @@ Future<List<MerchOutline>> merchList(MerchListRef ref) async {
   final merchList =
       await ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
   merchList.sort((a, b) => a.tag.compareTo(b.tag));
-  return merchList;
+  final tag = ref.watch(selectedTagProvider);
+  if (tag == null) {
+    return merchList;
+  } else {
+    final taggedList =
+        merchList.where((element) => element.tag == tag).toList();
+    final selectedMerchList = ref.watch(selectedMerchListProvider);
+    for(final merch in selectedMerchList) {
+      if (!taggedList.contains(merch)) {
+        taggedList.add(merch);
+      }
+    }
+    return taggedList;
+  }
+}
+
+@riverpod
+Future<List<String>> tagList(TagListRef ref) async {
+  final merchList =
+      await ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
+  final List<String> tagList = merchList.map((e) => e.tag).toSet().toList();
+  tagList.add('null');
+  return tagList;
 }
 
 @riverpod
@@ -41,6 +63,16 @@ class SelectedMerchList extends _$SelectedMerchList {
   }
 }
 
+@riverpod
+class SelectedTag extends _$SelectedTag {
+  @override
+  String? build() => null;
+
+  void set(String? tag) {
+    state = tag;
+  }
+}
+
 class MerchList extends ConsumerWidget {
   const MerchList({super.key});
 
@@ -50,6 +82,9 @@ class MerchList extends ConsumerWidget {
     final selectedMerchList = ref.watch(selectedMerchListProvider);
     final selectedMerchListNotifier =
         ref.read(selectedMerchListProvider.notifier);
+    final selectedTag = ref.watch(selectedTagProvider);
+    final selectedTagNotifier = ref.read(selectedTagProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('商品一覧: ${selectedMerchList.length}件選択中'),
@@ -67,6 +102,24 @@ class MerchList extends ConsumerWidget {
                 ),
               );
             },
+          ),
+          AsyncValueWidget(
+            value: ref.watch(tagListProvider),
+            builder: (data) => DropdownButton(
+              icon: const Icon(Icons.tag),
+              value: selectedTag,
+              items: data
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: (e != 'null') ? e : null,
+                      child: Text((e != 'null') ? e : 'タグなし'),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (val) {
+                selectedTagNotifier.set(val);
+              },
+            ),
           ),
         ],
       ),

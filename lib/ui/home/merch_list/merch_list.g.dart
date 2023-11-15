@@ -6,7 +6,7 @@ part of 'merch_list.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$merchListHash() => r'0c9a2a24206a23c2ead4bd1a071666b843ddfe43';
+String _$merchListHash() => r'5b1c8f62a85720f34e0417f7079a370db5869fb1';
 
 /// See also [merchList].
 @ProviderFor(merchList)
@@ -21,6 +21,20 @@ final merchListProvider =
 );
 
 typedef MerchListRef = AutoDisposeFutureProviderRef<List<MerchOutline>>;
+String _$tagListHash() => r'1f2ecd6c91839b8ee24d2357183a8783d0e7e3ed';
+
+/// See also [tagList].
+@ProviderFor(tagList)
+final tagListProvider = AutoDisposeFutureProvider<List<String>>.internal(
+  tagList,
+  name: r'tagListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$tagListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef TagListRef = AutoDisposeFutureProviderRef<List<String>>;
 String _$selectedMerchListHash() => r'3370cd8e6769a088a31716ed436ee7f5ad1bdb35';
 
 /// See also [SelectedMerchList].
@@ -37,5 +51,20 @@ final selectedMerchListProvider =
 );
 
 typedef _$SelectedMerchList = AutoDisposeNotifier<List<MerchOutline>>;
+String _$selectedTagHash() => r'3a7177ac2c5b60e6c3b74504eb89cc67e5beceab';
+
+/// See also [SelectedTag].
+@ProviderFor(SelectedTag)
+final selectedTagProvider =
+    AutoDisposeNotifierProvider<SelectedTag, String?>.internal(
+  SelectedTag.new,
+  name: r'selectedTagProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$selectedTagHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SelectedTag = AutoDisposeNotifier<String?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
