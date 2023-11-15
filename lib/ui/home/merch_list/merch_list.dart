@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/repository/merch_outline_repository.dart';
-import 'package:ketchy/ui/home/merch_list/merch_detail_tile.dart';
 import 'package:ketchy/ui/home/merch_list/merch_outline_tile.dart';
 import 'package:ketchy/ui/home/shop_list/shop_list.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
@@ -14,7 +13,10 @@ part 'merch_list.g.dart';
 
 @riverpod
 Future<List<MerchOutline>> merchList(MerchListRef ref) async {
-  return ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
+  final merchList =
+      await ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
+  merchList.sort((a, b) => a.tag.compareTo(b.tag));
+  return merchList;
 }
 
 @riverpod

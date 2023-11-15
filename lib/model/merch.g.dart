@@ -9,6 +9,7 @@ part of 'merch.dart';
 _$MerchImpl _$$MerchImplFromJson(Map<String, dynamic> json) => _$MerchImpl(
       id: json['id'] as String,
       name: json['name'] as String,
+      tag: json['tag'] as String,
       description: json['description'] as String?,
     );
 
@@ -16,6 +17,7 @@ Map<String, dynamic> _$$MerchImplToJson(_$MerchImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'tag': instance.tag,
       'description': instance.description,
     };
 

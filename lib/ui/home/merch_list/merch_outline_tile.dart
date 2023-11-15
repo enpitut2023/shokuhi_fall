@@ -11,8 +11,8 @@ class MerchOutlineTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(merch.name),
-      subtitle: Text(merch.description ?? ''),
+      title: Text("${merch.name}(${merch.tag})"),
+      subtitle: Text(merch.description ?? ''), // 商品説明（「100gあたりの値段」など）
       onTap: onTap,
       trailing: trailing,
     );
