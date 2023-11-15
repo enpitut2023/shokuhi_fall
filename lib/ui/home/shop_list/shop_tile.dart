@@ -17,14 +17,18 @@ class ShopTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sum = 0;
+    for(final merch in merchList) {
+      sum += merch.maxPrice as int;
+    }
+
     return ListTile(
       onTap: onTap,
       title: Text(shop.name),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for(final merch in merchList)
-            Text('${merch.name}: ${merch.minPrice}円〜${merch.maxPrice}円'),
+          Text('合計金額: $sum円')
         ],
       ),
       isThreeLine: merchList.length >= 2,
