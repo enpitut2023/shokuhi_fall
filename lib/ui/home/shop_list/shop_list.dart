@@ -44,12 +44,13 @@ class ShopList extends ConsumerWidget {
       ),
       body: AsyncValueWidget(
         value: shopList,
-        builder: (shopList) => _whenData(context, shopList),
+        builder: (shopList) => _whenData(context, shopList, merchIdList.length),
       ),
     );
   }
 
-  Widget _whenData(BuildContext context, List<Shop> shopList) {
+
+  Widget _whenData(BuildContext context, List<Shop> shopList, int merchCount) {
     return ListView.separated(
       separatorBuilder: (context, index) => const ListDivider(),
       itemCount: shopList.length,
@@ -64,7 +65,11 @@ class ShopList extends ConsumerWidget {
             ),
           );
         },
+        tileColor: shopList[index].merchList.length != merchCount
+            ? Colors.grey[300]
+            : null,
       ),
     );
   }
+
 }

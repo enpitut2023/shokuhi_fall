@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:ketchy/model/merch.dart';
 
@@ -9,16 +10,18 @@ class ShopTile extends StatelessWidget {
     required this.shop,
     this.onTap,
     this.merchList = const [],
+    this.tileColor,
   });
 
   final Shop shop;
   final VoidCallback? onTap;
   final List<MerchDetail> merchList;
+  final Color? tileColor;
 
   @override
   Widget build(BuildContext context) {
     var sum = 0;
-    for(final merch in merchList) {
+    for (final merch in merchList) {
       sum += merch.maxPrice as int;
     }
 
@@ -28,10 +31,11 @@ class ShopTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('合計金額: $sum円')
+          Text('合計金額: $sum円'),
         ],
       ),
       isThreeLine: merchList.length >= 2,
+      tileColor: tileColor,
     );
   }
 }
