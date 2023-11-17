@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ketchy/model/merch.dart';
 
@@ -32,6 +31,8 @@ class ShopTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('合計金額: $sum円'),
+          for (final merch in merchList)
+            Text('${merch.name} ${merch.maxPrice} - ${merch.minPrice}円'),
         ],
       ),
       isThreeLine: merchList.length >= 2,
