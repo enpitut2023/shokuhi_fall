@@ -28,7 +28,14 @@ class ShopRepositoryImpl implements ShopRepository {
         .doc(shopId)
         .get();
     log(snapshot.data().toString());
-    return const Shop(id: "id", name: "name", merchList: []);
+    final shopJson = snapshot.data();
+    if (shopJson == null) {
+      throw Exception('shop not found');
+    } else {
+      shopJson['id'] = shopId;
+      shopJson['merchList'] = [];
+    }
+    return Shop.fromJson(shopJson);
   }
 
   @override
@@ -37,12 +44,10 @@ class ShopRepositoryImpl implements ShopRepository {
         await FirebaseFirestore.instance.collection('shop_list').get();
     final List<Shop> list = [];
     for (var doc in snapshot.docs) {
-      // TODO: docからデータを取得してShopを作成
-      final shop = Shop(
-        id: doc.id,
-        name: doc['shop_name'],
-        merchList: [],
-      );
+      final shopJson = doc.data()
+        ..['id'] = doc.id
+        ..['merchList'] = [];
+      final shop = Shop.fromJson(shopJson);
       list.add(shop);
     }
     return list;
@@ -62,10 +67,13 @@ class ShopRepositoryImpl implements ShopRepository {
           .doc(merchId)
           .get();
       if (!merchDoc.exists) continue;
+      final shopJson = shopDoc.data()
+        ..['id'] = shopDoc.id
+        ..['merchList'] = [];
+      final shop = Shop.fromJson(shopJson);
+
       list.add(
-        Shop(
-          id: shopDoc.id,
-          name: shopDoc['shop_name'],
+        shop.copyWith(
           merchList: [
             MerchDetail(
               id: merchId,
@@ -110,10 +118,12 @@ class ShopRepositoryImpl implements ShopRepository {
           ),
         );
       }
+      final shopJson = shopDoc.data()
+        ..['id'] = shopDoc.id
+        ..['merchList'] = [];
+      final shop = Shop.fromJson(shopJson);
       list.add(
-        Shop(
-          id: shopDoc.id,
-          name: shopDoc['shop_name'],
+        shop.copyWith(
           merchList: merchList,
         ),
       );
