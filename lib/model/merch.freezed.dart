@@ -408,6 +408,7 @@ mixin _$PostedMerch {
   String get id => throw _privateConstructorUsedError;
   String get merchDetailId => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
+  String get date => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
 
@@ -427,6 +428,7 @@ abstract class $PostedMerchCopyWith<$Res> {
       {String id,
       String merchDetailId,
       double price,
+      String date,
       String? description,
       String? imageUrl});
 }
@@ -447,6 +449,7 @@ class _$PostedMerchCopyWithImpl<$Res, $Val extends PostedMerch>
     Object? id = null,
     Object? merchDetailId = null,
     Object? price = null,
+    Object? date = null,
     Object? description = freezed,
     Object? imageUrl = freezed,
   }) {
@@ -463,6 +466,10 @@ class _$PostedMerchCopyWithImpl<$Res, $Val extends PostedMerch>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -487,6 +494,7 @@ abstract class _$$PostedMerchImplCopyWith<$Res>
       {String id,
       String merchDetailId,
       double price,
+      String date,
       String? description,
       String? imageUrl});
 }
@@ -505,6 +513,7 @@ class __$$PostedMerchImplCopyWithImpl<$Res>
     Object? id = null,
     Object? merchDetailId = null,
     Object? price = null,
+    Object? date = null,
     Object? description = freezed,
     Object? imageUrl = freezed,
   }) {
@@ -521,6 +530,10 @@ class __$$PostedMerchImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -540,6 +553,7 @@ class _$PostedMerchImpl implements _PostedMerch {
       {required this.id,
       required this.merchDetailId,
       required this.price,
+      required this.date,
       this.description,
       this.imageUrl});
 
@@ -553,13 +567,15 @@ class _$PostedMerchImpl implements _PostedMerch {
   @override
   final double price;
   @override
+  final String date;
+  @override
   final String? description;
   @override
   final String? imageUrl;
 
   @override
   String toString() {
-    return 'PostedMerch(id: $id, merchDetailId: $merchDetailId, price: $price, description: $description, imageUrl: $imageUrl)';
+    return 'PostedMerch(id: $id, merchDetailId: $merchDetailId, price: $price, date: $date, description: $description, imageUrl: $imageUrl)';
   }
 
   @override
@@ -571,6 +587,7 @@ class _$PostedMerchImpl implements _PostedMerch {
             (identical(other.merchDetailId, merchDetailId) ||
                 other.merchDetailId == merchDetailId) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.date, date) || other.date == date) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -579,8 +596,8 @@ class _$PostedMerchImpl implements _PostedMerch {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, merchDetailId, price, description, imageUrl);
+  int get hashCode => Object.hash(
+      runtimeType, id, merchDetailId, price, date, description, imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -601,6 +618,7 @@ abstract class _PostedMerch implements PostedMerch {
       {required final String id,
       required final String merchDetailId,
       required final double price,
+      required final String date,
       final String? description,
       final String? imageUrl}) = _$PostedMerchImpl;
 
@@ -613,6 +631,8 @@ abstract class _PostedMerch implements PostedMerch {
   String get merchDetailId;
   @override
   double get price;
+  @override
+  String get date;
   @override
   String? get description;
   @override

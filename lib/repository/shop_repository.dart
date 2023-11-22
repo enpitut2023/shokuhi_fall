@@ -23,6 +23,9 @@ abstract class ShopRepository {
       String shopId, String merchDetailId, PostedMerch postedMerch);
 
   Future<List<MerchDetail>> fetchMerchIdList(String shopId);
+
+  Future<List<PostedMerch>> fetchPostedMerchList(
+      String shopId, String merchDetailId);
 }
 
 class ShopRepositoryImpl implements ShopRepository {
@@ -159,7 +162,7 @@ class ShopRepositoryImpl implements ShopRepository {
         .get();
     final List<MerchDetail> list = [];
     for (final doc in snapshot.docs) {
-      if(doc.exists) {
+      if (doc.exists) {
         final json = doc.data();
         json['id'] = doc.id;
         list.add(MerchDetail.fromJson(json));
@@ -168,5 +171,27 @@ class ShopRepositoryImpl implements ShopRepository {
     return list;
   }
 
+  @override
+  Future<List<PostedMerch>> fetchPostedMerchList(
+      String shopId, String merchDetailId) {
+    final instance = FirebaseFirestore.instance;
+    return instance
+        .collection('shop_list')
+        .doc(shopId)
+        .collection('merch_list')
+        .doc(merchDetailId)
+        .collection('posted_merch_list')
+        .get()
+        .then(
+      (snapshot) {
+        final List<PostedMerch> list = [];
+        for (final doc in snapshot.docs) {
+          final json = doc.data();
+          list.add(PostedMerch.fromJson(json));
+        }
+        return list;
+      },
+    );
+  }
 
 }
