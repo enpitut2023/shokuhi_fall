@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:ketchy/model/shop.dart';
-import 'package:ketchy/ui/widgets/MapWidget.dart';
+import 'package:ketchy/ui/shop_detail/add_merch_dialog.dart';
+import 'package:ketchy/ui/widgets/map_widget.dart';
 
 import '../home/merch_list/merch_detail_tile.dart';
 
@@ -75,8 +76,19 @@ class ShopDetail extends ConsumerWidget {
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text('- ${comment.value}'),
                   ),
-                const ListTile(
-                  title: Text('選択した商品一覧'),
+                ListTile(
+                  title: const Text('選択した商品一覧'),
+                  trailing: IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AddMerchDialog(
+                          shopId: shop.id,
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
                 ),
                 const Divider(),
                 for (final merch in shop.merchList) MerchDetailTile(merch),

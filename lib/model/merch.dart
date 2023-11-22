@@ -31,3 +31,17 @@ abstract class MerchDetail with _$MerchDetail {
   factory MerchDetail.fromJson(Map<String, dynamic> json) =>
       _$MerchDetailFromJson(json);
 }
+
+@freezed
+class PostedMerch with _$PostedMerch {
+  const factory PostedMerch({
+    required String id,
+    required String merchDetailId,
+    required double price,
+    String? description,
+    String? imageUrl,
+  }) = _PostedMerch;
+
+  factory PostedMerch.fromJson(Map<String, dynamic> json) =>
+      _$PostedMerchFromJson(json);
+}

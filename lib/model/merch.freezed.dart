@@ -398,3 +398,227 @@ abstract class _MerchDetail implements MerchDetail {
   _$$MerchDetailImplCopyWith<_$MerchDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+PostedMerch _$PostedMerchFromJson(Map<String, dynamic> json) {
+  return _PostedMerch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PostedMerch {
+  String get id => throw _privateConstructorUsedError;
+  String get merchDetailId => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PostedMerchCopyWith<PostedMerch> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PostedMerchCopyWith<$Res> {
+  factory $PostedMerchCopyWith(
+          PostedMerch value, $Res Function(PostedMerch) then) =
+      _$PostedMerchCopyWithImpl<$Res, PostedMerch>;
+  @useResult
+  $Res call(
+      {String id,
+      String merchDetailId,
+      double price,
+      String? description,
+      String? imageUrl});
+}
+
+/// @nodoc
+class _$PostedMerchCopyWithImpl<$Res, $Val extends PostedMerch>
+    implements $PostedMerchCopyWith<$Res> {
+  _$PostedMerchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? merchDetailId = null,
+    Object? price = null,
+    Object? description = freezed,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      merchDetailId: null == merchDetailId
+          ? _value.merchDetailId
+          : merchDetailId // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PostedMerchImplCopyWith<$Res>
+    implements $PostedMerchCopyWith<$Res> {
+  factory _$$PostedMerchImplCopyWith(
+          _$PostedMerchImpl value, $Res Function(_$PostedMerchImpl) then) =
+      __$$PostedMerchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String merchDetailId,
+      double price,
+      String? description,
+      String? imageUrl});
+}
+
+/// @nodoc
+class __$$PostedMerchImplCopyWithImpl<$Res>
+    extends _$PostedMerchCopyWithImpl<$Res, _$PostedMerchImpl>
+    implements _$$PostedMerchImplCopyWith<$Res> {
+  __$$PostedMerchImplCopyWithImpl(
+      _$PostedMerchImpl _value, $Res Function(_$PostedMerchImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? merchDetailId = null,
+    Object? price = null,
+    Object? description = freezed,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_$PostedMerchImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      merchDetailId: null == merchDetailId
+          ? _value.merchDetailId
+          : merchDetailId // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PostedMerchImpl implements _PostedMerch {
+  const _$PostedMerchImpl(
+      {required this.id,
+      required this.merchDetailId,
+      required this.price,
+      this.description,
+      this.imageUrl});
+
+  factory _$PostedMerchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PostedMerchImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String merchDetailId;
+  @override
+  final double price;
+  @override
+  final String? description;
+  @override
+  final String? imageUrl;
+
+  @override
+  String toString() {
+    return 'PostedMerch(id: $id, merchDetailId: $merchDetailId, price: $price, description: $description, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PostedMerchImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.merchDetailId, merchDetailId) ||
+                other.merchDetailId == merchDetailId) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, merchDetailId, price, description, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PostedMerchImplCopyWith<_$PostedMerchImpl> get copyWith =>
+      __$$PostedMerchImplCopyWithImpl<_$PostedMerchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PostedMerchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PostedMerch implements PostedMerch {
+  const factory _PostedMerch(
+      {required final String id,
+      required final String merchDetailId,
+      required final double price,
+      final String? description,
+      final String? imageUrl}) = _$PostedMerchImpl;
+
+  factory _PostedMerch.fromJson(Map<String, dynamic> json) =
+      _$PostedMerchImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get merchDetailId;
+  @override
+  double get price;
+  @override
+  String? get description;
+  @override
+  String? get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$PostedMerchImplCopyWith<_$PostedMerchImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
