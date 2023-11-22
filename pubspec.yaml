@@ -30,6 +30,7 @@ dependencies:
   geocoding: ^2.1.0
   geolocator: ^9.0.2
   latlong2: ^0.8.2
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:
