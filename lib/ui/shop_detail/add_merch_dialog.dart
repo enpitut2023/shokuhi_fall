@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:ketchy/model/merch.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
@@ -13,9 +14,12 @@ part 'add_merch_dialog.g.dart';
 class UserMerch extends _$UserMerch {
   @override
   PostedMerch build() {
+    final now = DateTime.now();
+    final date = DateFormat('yyyy/MM/dd').format(now);
     return PostedMerch(
       id: const Uuid().v4(),
       merchDetailId: 'ylOMgChnetCbrsNEX9XO',
+      date: date,
       price: 0,
     );
   }

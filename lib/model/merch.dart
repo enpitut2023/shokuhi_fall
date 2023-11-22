@@ -38,6 +38,7 @@ class PostedMerch with _$PostedMerch {
     required String id,
     required String merchDetailId,
     required double price,
+    required String date,
     String? description,
     String? imageUrl,
   }) = _PostedMerch;

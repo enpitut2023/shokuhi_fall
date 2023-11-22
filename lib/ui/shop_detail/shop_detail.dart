@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:ketchy/model/merch.dart';
 import 'package:ketchy/model/shop.dart';
-import 'package:ketchy/ui/shop_detail/add_merch_dialog.dart';
+import 'package:ketchy/repository/shop_repository.dart';
+import 'package:ketchy/ui/home/posted_merch/posted_merch_list.dart';
+import 'package:ketchy/ui/widgets/async_value_widget.dart';
 import 'package:ketchy/ui/widgets/map_widget.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../home/merch_list/merch_detail_tile.dart';
+import 'add_merch_dialog.dart';
+
+part 'shop_detail.g.dart';
+
+@riverpod
+Future<List<MerchDetail>> merchDetailList(MerchDetailListRef ref,
+    {required String shopId}) async {
+  final repository = ref.read(shopRepositoryProvider);
+  return await repository.fetchMerchIdList(shopId);
+}
 
 class ShopDetail extends ConsumerWidget {
   const ShopDetail({super.key, required this.shop});
@@ -16,6 +30,9 @@ class ShopDetail extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
     final dayOfWeek = DateFormat('EEEE').format(now);
+    final merchDetailList = ref.watch(
+      merchDetailListProvider(shopId: shop.id),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +108,29 @@ class ShopDetail extends ConsumerWidget {
                   ),
                 ),
                 const Divider(),
-                for (final merch in shop.merchList) MerchDetailTile(merch),
+                AsyncValueWidget(
+                  value: merchDetailList,
+                  builder: (data) => Column(
+                    children: [
+                      for (final merch in data)
+                        MerchDetailTile(
+                          merch,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PostedMerchList(
+                                  shopId: shop.id,
+                                  merchDetailId: merch.id,
+                                  merchName: merch.name,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
