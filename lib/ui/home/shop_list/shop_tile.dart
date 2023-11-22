@@ -30,9 +30,22 @@ class ShopTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('合計金額: $sum円'),
+          const Text('内訳：'),
           for (final merch in merchList)
-            Text('${merch.name} ${merch.maxPrice} - ${merch.minPrice}円'),
+            Text('${merch.name} ${merch.minPrice} - ${merch.maxPrice}円'),
+        ],
+      ),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '合計金額: $sum円',
+            style: const TextStyle(
+              fontSize: 18, // テキストのサイズを大きくします。
+              fontWeight: FontWeight.bold, // テキストの太さを太くします。
+            ),
+          ),
         ],
       ),
       isThreeLine: merchList.length >= 2,

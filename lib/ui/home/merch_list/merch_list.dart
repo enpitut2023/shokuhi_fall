@@ -89,8 +89,8 @@ class MerchList extends ConsumerWidget {
       appBar: AppBar(
         title: Text('商品一覧: ${selectedMerchList.length}件選択中'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
+          TextButton(
+            child: const Text('お店を探す', style: TextStyle(fontSize: 20)),
             onPressed: () {
               Navigator.push(
                 context,
@@ -112,7 +112,7 @@ class MerchList extends ConsumerWidget {
                   .map(
                     (e) => DropdownMenuItem(
                       value: (e != 'null') ? e : null,
-                      child: Text((e != 'null') ? e : 'タグなし'),
+                      child: Text((e != 'null') ? e : '全て'),
                     ),
                   )
                   .toList(),
