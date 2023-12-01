@@ -70,15 +70,21 @@ class ShopDetail extends ConsumerWidget {
                           child: Text(
                             '$dow: ',
                             style: TextStyle(
+                              fontWeight:
+                              dayOfWeek == dow ? FontWeight.bold : FontWeight.normal,
                               color:
-                                  dayOfWeek == dow ? Colors.red : Colors.black,
+                                  dayOfWeek == dow ? Colors.black : Colors.grey,
                             ),
                           ),
                         ),
                         Text(
-                          '${shop.open[dow]} - ${shop.close[dow] == '00:00' ? '24:00' : shop.close[dow]}',
+                          shop.open[dow] == '00:00' && shop.close[dow] == '00:00' ?
+                            '24時間営業' :
+                            '${shop.open[dow]} - ${shop.close[dow] == '00:00' ? '24:00' : shop.close[dow]}',
                           style: TextStyle(
-                            color: dayOfWeek == dow ? Colors.red : Colors.black,
+                            fontWeight:
+                              dayOfWeek == dow ? FontWeight.bold : FontWeight.normal,
+                              color: dayOfWeek == dow ? Colors.black : Colors.grey,
                           ),
                         ),
                       ],
