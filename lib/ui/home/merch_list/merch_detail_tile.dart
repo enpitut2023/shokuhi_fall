@@ -16,7 +16,7 @@ class MerchDetailTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${merch.minPrice}円 ~ ${merch.maxPrice}円'),
+          Text('平均${merch.averagePrice()}円'),
         ],
       ),
       onTap: onTap,

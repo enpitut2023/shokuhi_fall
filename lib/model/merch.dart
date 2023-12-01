@@ -20,13 +20,22 @@ abstract class MerchOutline with _$MerchOutline {
 
 // 商品詳細
 @freezed
-abstract class MerchDetail with _$MerchDetail {
+abstract class MerchDetail implements _$MerchDetail {
+  const MerchDetail._();
   const factory MerchDetail({
     required String id,
     required String name,
-    double? minPrice, // 最低価格
-    double? maxPrice, // 最高価格
+    required double sumPrice,
+    required int count,
   }) = _MerchDetail;
+
+  double averagePrice() {
+    if (count == 0) {
+      return 0;
+    } else {
+      return sumPrice / count;
+    }
+  }
 
   factory MerchDetail.fromJson(Map<String, dynamic> json) =>
       _$MerchDetailFromJson(json);

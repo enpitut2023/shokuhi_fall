@@ -18,7 +18,7 @@ class UserMerch extends _$UserMerch {
     final date = DateFormat('yyyy/MM/dd').format(now);
     return PostedMerch(
       id: const Uuid().v4(),
-      merchDetailId: 'ylOMgChnetCbrsNEX9XO',
+      merchDetailId: '',
       date: date,
       price: 0,
     );
@@ -33,27 +33,26 @@ class UserMerch extends _$UserMerch {
     repository.addMerchToShop(shopId, state.merchDetailId, state);
   }
 
-  Future<List<MerchDetail>> fetchMerchDetailList(String shopId) async {
+  Future<List<MerchOutline>> fetchMerchOutlineList() async {
     final repository = ref.read(shopRepositoryProvider);
-    return await repository.fetchMerchIdList(shopId);
+    return await repository.fetchMerchIdList();
   }
 }
 
 @riverpod
-class SelectedMerchDetail extends _$SelectedMerchDetail {
+class SelectedMerchOutline extends _$SelectedMerchOutline {
   @override
-  MerchDetail? build() => null;
+  MerchOutline? build() => null;
 
-  void set(MerchDetail? merch) {
+  void set(MerchOutline? merch) {
     state = merch;
   }
 }
 
 @riverpod
-Future<List<MerchDetail>> merchDetailList(MerchDetailListRef ref,
-    {required String shopId}) async {
+Future<List<MerchOutline>> merchOutlineList(MerchOutlineListRef ref) async {
   final repository = ref.read(shopRepositoryProvider);
-  return await repository.fetchMerchIdList(shopId);
+  return await repository.fetchMerchIdList();
 }
 
 class AddMerchDialog extends ConsumerWidget {
@@ -65,10 +64,10 @@ class AddMerchDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userMerch = ref.watch(userMerchProvider);
     final userMerchNotifier = ref.read(userMerchProvider.notifier);
-    final selectedMerchDetail = ref.watch(selectedMerchDetailProvider);
+    final selectedMerchDetail = ref.watch(selectedMerchOutlineProvider);
     final selectedMerchDetailNotifier =
-        ref.read(selectedMerchDetailProvider.notifier);
-    final merchDetailList = ref.watch(merchDetailListProvider(shopId: shopId));
+        ref.read(selectedMerchOutlineProvider.notifier);
+    final merchDetailList = ref.watch(merchOutlineListProvider);
 
     return AlertDialog(
       title: const Text('商品を追加'),

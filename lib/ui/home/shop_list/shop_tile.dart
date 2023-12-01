@@ -19,9 +19,9 @@ class ShopTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var sum = 0;
+    var sum = 0.0;
     for (final merch in merchList) {
-      sum += merch.maxPrice as int;
+      sum += merch.averagePrice();
     }
 
     return ListTile(
@@ -32,7 +32,7 @@ class ShopTile extends StatelessWidget {
         children: [
           const Text('内訳：'),
           for (final merch in merchList)
-            Text('${merch.name} ${merch.minPrice} - ${merch.maxPrice}円'),
+            Text('${merch.name} ${merch.averagePrice()}円'),
         ],
       ),
       trailing: Column(

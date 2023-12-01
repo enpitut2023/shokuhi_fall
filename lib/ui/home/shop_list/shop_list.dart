@@ -21,9 +21,9 @@ Future<List<Shop>> shopList(ShopListRef ref, List<String> merchIdList) async {
     if (lengthCompare != 0) {
       return lengthCompare;
     }
-    final aSum = a.merchList.fold<double>(0, (sum, merch) => sum + (merch.maxPrice ?? 0));
-    final bSum = b.merchList.fold<double>(0, (sum, merch) => sum + (merch.maxPrice ?? 0));
-    return bSum.compareTo(aSum);
+    final aSum = a.merchList.fold<double>(0, (sum, merch) => sum + merch.averagePrice());
+    final bSum = b.merchList.fold<double>(0, (sum, merch) => sum + merch.averagePrice());
+    return aSum.compareTo(bSum);
   });
 }
 

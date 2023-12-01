@@ -18,7 +18,7 @@ part 'shop_detail.g.dart';
 Future<List<MerchDetail>> merchDetailList(MerchDetailListRef ref,
     {required String shopId}) async {
   final repository = ref.read(shopRepositoryProvider);
-  return await repository.fetchMerchIdList(shopId);
+  return await repository.fetchMerchDetailList(shopId);
 }
 
 class ShopDetail extends ConsumerWidget {

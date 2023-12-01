@@ -25,16 +25,16 @@ _$MerchDetailImpl _$$MerchDetailImplFromJson(Map<String, dynamic> json) =>
     _$MerchDetailImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      minPrice: (json['minPrice'] as num?)?.toDouble(),
-      maxPrice: (json['maxPrice'] as num?)?.toDouble(),
+      sumPrice: (json['sumPrice'] as num).toDouble(),
+      count: json['count'] as int,
     );
 
 Map<String, dynamic> _$$MerchDetailImplToJson(_$MerchDetailImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'minPrice': instance.minPrice,
-      'maxPrice': instance.maxPrice,
+      'sumPrice': instance.sumPrice,
+      'count': instance.count,
     };
 
 _$PostedMerchImpl _$$PostedMerchImplFromJson(Map<String, dynamic> json) =>
