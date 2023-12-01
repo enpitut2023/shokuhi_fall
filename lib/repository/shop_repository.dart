@@ -22,7 +22,9 @@ abstract class ShopRepository {
   Future<void> addMerchToShop(
       String shopId, String merchDetailId, PostedMerch postedMerch);
 
-  Future<List<MerchDetail>> fetchMerchIdList(String shopId);
+  Future<List<MerchOutline>> fetchMerchIdList();
+
+  Future<List<MerchDetail>> fetchMerchDetailList(String shopId);
 
   Future<List<PostedMerch>> fetchPostedMerchList(
       String shopId, String merchDetailId);
@@ -79,17 +81,13 @@ class ShopRepositoryImpl implements ShopRepository {
         ..['id'] = shopDoc.id
         ..['merchList'] = [];
       final shop = Shop.fromJson(shopJson);
+      final merchDetailJson = merchDoc.data()!;
+      merchDetailJson['id'] = merchId;
 
       list.add(
         shop.copyWith(
           merchList: [
-            MerchDetail(
-              id: merchId,
-              name: merchDoc['name'],
-              // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
-              minPrice: double.parse(merchDoc['minPrice'].toString()),
-              maxPrice: double.parse(merchDoc['maxPrice'].toString()),
-            ),
+            MerchDetail.fromJson(merchDetailJson),
           ],
         ),
       );
@@ -115,15 +113,10 @@ class ShopRepositoryImpl implements ShopRepository {
             .doc(merchId)
             .get();
         if (!merchDoc.exists) continue;
-
+        final merchDetailJson = merchDoc.data()!;
+        merchDetailJson['id'] = merchId;
         merchList.add(
-          MerchDetail(
-            id: merchId,
-            name: merchDoc['name'],
-            // 文字列型とnum型が混じっているので、一旦文字列型に変換してからnum型に変換
-            minPrice: double.parse(merchDoc['minPrice'].toString()),
-            maxPrice: double.parse(merchDoc['maxPrice'].toString()),
-          ),
+          MerchDetail.fromJson(merchDetailJson),
         );
       }
       final shopJson = shopDoc.data()
@@ -143,29 +136,55 @@ class ShopRepositoryImpl implements ShopRepository {
   @override
   Future<void> addMerchToShop(
       String shopId, String merchDetailId, PostedMerch postedMerch) async {
-    return FirebaseFirestore.instance
+    final merchDetailDocRef = FirebaseFirestore.instance
         .collection('shop_list')
         .doc(shopId)
         .collection('merch_list')
-        .doc(merchDetailId)
+        .doc(merchDetailId);
+    await merchDetailDocRef
         .collection('posted_merch_list')
         .doc(postedMerch.id)
         .set(postedMerch.toJson());
+
+    final merchDetailDoc = await merchDetailDocRef.get();
+
+    double sumPrice = postedMerch.price;
+    int count = 1;
+    if (merchDetailDoc.exists) {
+      final merchDetailJson = merchDetailDoc.data()!;
+      sumPrice += merchDetailJson['sumPrice'];
+      count += merchDetailJson['count'] as int;
+    }
+
+    final merchOutlineDocRef = await FirebaseFirestore.instance
+        .collection('merch_list')
+        .doc(merchDetailId)
+        .get();
+    var name = "";
+    if (merchOutlineDocRef.exists) {
+      name = merchOutlineDocRef.data()!['name'];
+    }
+
+    merchDetailDocRef.set(
+      MerchDetail(
+        id: merchDetailId,
+        name: name,
+        sumPrice: sumPrice,
+        count: count,
+      ).toJson(),
+    );
   }
 
   @override
-  Future<List<MerchDetail>> fetchMerchIdList(String shopId) async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('shop_list')
-        .doc(shopId)
-        .collection('merch_list')
-        .get();
-    final List<MerchDetail> list = [];
+  Future<List<MerchOutline>> fetchMerchIdList() async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('merch_list').get();
+    final List<MerchOutline> list = [];
     for (final doc in snapshot.docs) {
       if (doc.exists) {
         final json = doc.data();
         json['id'] = doc.id;
-        list.add(MerchDetail.fromJson(json));
+        list.add(MerchOutline.fromJson(json));
       }
     }
     return list;
@@ -194,4 +213,21 @@ class ShopRepositoryImpl implements ShopRepository {
     );
   }
 
+  @override
+  Future<List<MerchDetail>> fetchMerchDetailList(String shopId) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('shop_list')
+        .doc(shopId)
+        .collection('merch_list')
+        .get();
+    final List<MerchDetail> list = [];
+    for (final doc in snapshot.docs) {
+      if (doc.exists) {
+        final json = doc.data();
+        json['id'] = doc.id;
+        list.add(MerchDetail.fromJson(json));
+      }
+    }
+    return list;
+  }
 }

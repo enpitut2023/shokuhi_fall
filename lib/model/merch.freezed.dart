@@ -215,8 +215,8 @@ MerchDetail _$MerchDetailFromJson(Map<String, dynamic> json) {
 mixin _$MerchDetail {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  double? get minPrice => throw _privateConstructorUsedError; // 最低価格
-  double? get maxPrice => throw _privateConstructorUsedError;
+  double get sumPrice => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -230,7 +230,7 @@ abstract class $MerchDetailCopyWith<$Res> {
           MerchDetail value, $Res Function(MerchDetail) then) =
       _$MerchDetailCopyWithImpl<$Res, MerchDetail>;
   @useResult
-  $Res call({String id, String name, double? minPrice, double? maxPrice});
+  $Res call({String id, String name, double sumPrice, int count});
 }
 
 /// @nodoc
@@ -248,8 +248,8 @@ class _$MerchDetailCopyWithImpl<$Res, $Val extends MerchDetail>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? minPrice = freezed,
-    Object? maxPrice = freezed,
+    Object? sumPrice = null,
+    Object? count = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -260,14 +260,14 @@ class _$MerchDetailCopyWithImpl<$Res, $Val extends MerchDetail>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minPrice: freezed == minPrice
-          ? _value.minPrice
-          : minPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
-      maxPrice: freezed == maxPrice
-          ? _value.maxPrice
-          : maxPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+      sumPrice: null == sumPrice
+          ? _value.sumPrice
+          : sumPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -280,7 +280,7 @@ abstract class _$$MerchDetailImplCopyWith<$Res>
       __$$MerchDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, double? minPrice, double? maxPrice});
+  $Res call({String id, String name, double sumPrice, int count});
 }
 
 /// @nodoc
@@ -296,8 +296,8 @@ class __$$MerchDetailImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? minPrice = freezed,
-    Object? maxPrice = freezed,
+    Object? sumPrice = null,
+    Object? count = null,
   }) {
     return _then(_$MerchDetailImpl(
       id: null == id
@@ -308,23 +308,27 @@ class __$$MerchDetailImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      minPrice: freezed == minPrice
-          ? _value.minPrice
-          : minPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
-      maxPrice: freezed == maxPrice
-          ? _value.maxPrice
-          : maxPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+      sumPrice: null == sumPrice
+          ? _value.sumPrice
+          : sumPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MerchDetailImpl implements _MerchDetail {
+class _$MerchDetailImpl extends _MerchDetail {
   const _$MerchDetailImpl(
-      {required this.id, required this.name, this.minPrice, this.maxPrice});
+      {required this.id,
+      required this.name,
+      required this.sumPrice,
+      required this.count})
+      : super._();
 
   factory _$MerchDetailImpl.fromJson(Map<String, dynamic> json) =>
       _$$MerchDetailImplFromJson(json);
@@ -334,14 +338,13 @@ class _$MerchDetailImpl implements _MerchDetail {
   @override
   final String name;
   @override
-  final double? minPrice;
-// 最低価格
+  final double sumPrice;
   @override
-  final double? maxPrice;
+  final int count;
 
   @override
   String toString() {
-    return 'MerchDetail(id: $id, name: $name, minPrice: $minPrice, maxPrice: $maxPrice)';
+    return 'MerchDetail(id: $id, name: $name, sumPrice: $sumPrice, count: $count)';
   }
 
   @override
@@ -351,15 +354,14 @@ class _$MerchDetailImpl implements _MerchDetail {
             other is _$MerchDetailImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.minPrice, minPrice) ||
-                other.minPrice == minPrice) &&
-            (identical(other.maxPrice, maxPrice) ||
-                other.maxPrice == maxPrice));
+            (identical(other.sumPrice, sumPrice) ||
+                other.sumPrice == sumPrice) &&
+            (identical(other.count, count) || other.count == count));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, minPrice, maxPrice);
+  int get hashCode => Object.hash(runtimeType, id, name, sumPrice, count);
 
   @JsonKey(ignore: true)
   @override
@@ -375,12 +377,13 @@ class _$MerchDetailImpl implements _MerchDetail {
   }
 }
 
-abstract class _MerchDetail implements MerchDetail {
+abstract class _MerchDetail extends MerchDetail {
   const factory _MerchDetail(
       {required final String id,
       required final String name,
-      final double? minPrice,
-      final double? maxPrice}) = _$MerchDetailImpl;
+      required final double sumPrice,
+      required final int count}) = _$MerchDetailImpl;
+  const _MerchDetail._() : super._();
 
   factory _MerchDetail.fromJson(Map<String, dynamic> json) =
       _$MerchDetailImpl.fromJson;
@@ -390,9 +393,9 @@ abstract class _MerchDetail implements MerchDetail {
   @override
   String get name;
   @override
-  double? get minPrice;
-  @override // 最低価格
-  double? get maxPrice;
+  double get sumPrice;
+  @override
+  int get count;
   @override
   @JsonKey(ignore: true)
   _$$MerchDetailImplCopyWith<_$MerchDetailImpl> get copyWith =>
