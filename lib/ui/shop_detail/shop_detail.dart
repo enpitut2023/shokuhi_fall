@@ -100,7 +100,7 @@ class ShopDetail extends ConsumerWidget {
                     child: Text('- ${comment.value}'),
                   ),
                 ListTile(
-                  title: const Text('選択した商品一覧'),
+                  title: const Text('商品一覧'),
                   trailing: IconButton(
                     onPressed: () {
                       showDialog(
