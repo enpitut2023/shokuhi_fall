@@ -13,6 +13,10 @@ abstract class MerchOutlineRepository {
 
   Future<List<MerchOutline>> fetchMerchOutlineList();
 
+  Future<MerchOutline> fetchMerchOutline(String merchId);
+
+  Future<void> addMerchOutline(MerchOutline merchOutline);
+
 }
 
 class MerchOutlineRepositoryImpl implements MerchOutlineRepository {
@@ -28,5 +32,23 @@ class MerchOutlineRepositoryImpl implements MerchOutlineRepository {
       list.add(merch);
     }
     return list;
+  }
+
+  @override
+  Future<void> addMerchOutline(MerchOutline merchOutline) {
+    return FirebaseFirestore.instance
+        .collection('merch_list')
+        .add(merchOutline.toJson());
+  }
+
+  @override
+  Future<MerchOutline> fetchMerchOutline(String merchId) async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('merch_list').doc(merchId).get();
+    if(!snapshot.exists){
+      throw Exception('merchId: $merchId は存在しません');
+    }
+    final json = snapshot.data()?..['id'] = snapshot.id;
+    return MerchOutline.fromJson(json!);
   }
 }

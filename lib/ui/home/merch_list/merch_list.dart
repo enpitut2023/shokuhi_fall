@@ -23,7 +23,7 @@ Future<List<MerchOutline>> merchList(MerchListRef ref) async {
     final taggedList =
         merchList.where((element) => element.tag == tag).toList();
     final selectedMerchList = ref.watch(selectedMerchListProvider);
-    for(final merch in selectedMerchList) {
+    for (final merch in selectedMerchList) {
       if (!taggedList.contains(merch)) {
         taggedList.add(merch);
       }
@@ -89,20 +89,6 @@ class MerchList extends ConsumerWidget {
       appBar: AppBar(
         title: Text('商品一覧: ${selectedMerchList.length}件選択中'),
         actions: [
-          TextButton(
-            child: const Text('お店を探す', style: TextStyle(fontSize: 20)),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShopList(
-                    merchIdList: selectedMerchList.map((e) => e.id).toList(),
-                    merchName: selectedMerchList.map((e) => e.name).join(','),
-                  ),
-                ),
-              );
-            },
-          ),
           AsyncValueWidget(
             value: ref.watch(tagListProvider),
             builder: (data) => DropdownButton(
@@ -122,6 +108,22 @@ class MerchList extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.search),
+        label: const Text('お店を探す'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ShopList(
+                merchIdList: selectedMerchList.map((e) => e.id).toList(),
+                merchName: selectedMerchList.map((e) => e.name).join(','),
+              ),
+            ),
+          );
+        },
+        isExtended: true,
       ),
       body: AsyncValueWidget(
         value: merchList,

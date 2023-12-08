@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:ketchy/model/merch.dart';
+import 'package:ketchy/repository/merch_outline_repository.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -40,9 +41,22 @@ class UserMerch extends _$UserMerch {
 }
 
 @riverpod
+Future<List<String>> tagList(TagListRef ref) async {
+  final repository = ref.read(shopRepositoryProvider);
+  final merchList = await repository.fetchMerchIdList();
+  final List<String> tagList = merchList.map((e) => e.tag).toSet().toList();
+  tagList.add('');
+  return tagList;
+}
+
+@riverpod
 class SelectedMerchOutline extends _$SelectedMerchOutline {
   @override
-  MerchOutline? build() => null;
+  MerchOutline? build(String merchId) {
+    final provider = ref.read(merchOutlineRepositoryProvider);
+    provider.fetchMerchOutline(merchId).then((value) => state = value);
+    return null;
+  }
 
   void set(MerchOutline? merch) {
     state = merch;
@@ -50,24 +64,50 @@ class SelectedMerchOutline extends _$SelectedMerchOutline {
 }
 
 @riverpod
+class SelectedTag extends _$SelectedTag {
+  @override
+  String build() => '';
+
+  void set(
+      String tag, SelectedMerchOutlineProvider selectedMerchOutlineProvider) {
+    final notifier = ref.read(selectedMerchOutlineProvider.notifier);
+    notifier.state = null;
+    state = tag;
+  }
+}
+
+@riverpod
 Future<List<MerchOutline>> merchOutlineList(MerchOutlineListRef ref) async {
   final repository = ref.read(shopRepositoryProvider);
-  return await repository.fetchMerchIdList();
+  final tag = ref.watch(selectedTagProvider);
+  final merchList = await repository.fetchMerchIdList();
+  // tagでフィルターをかける
+  final filteredList = tag.isEmpty
+      ? merchList
+      : merchList.where((element) => element.tag == tag).toList();
+  return filteredList;
 }
 
 class AddMerchDialog extends ConsumerWidget {
-  const AddMerchDialog({required this.shopId, super.key});
+  const AddMerchDialog(
+      {required this.shopId, required this.merchDetailId, super.key});
 
   final String shopId;
+  final String merchDetailId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedMerchOutlineProviderWithId =
+        selectedMerchOutlineProvider(merchDetailId);
     final userMerch = ref.watch(userMerchProvider);
     final userMerchNotifier = ref.read(userMerchProvider.notifier);
-    final selectedMerchDetail = ref.watch(selectedMerchOutlineProvider);
-    final selectedMerchDetailNotifier =
-        ref.read(selectedMerchOutlineProvider.notifier);
-    final merchDetailList = ref.watch(merchOutlineListProvider);
+    final selectedMerchOutline = ref.watch(selectedMerchOutlineProviderWithId);
+    final selectedMerchOutlineNotifier =
+        ref.read(selectedMerchOutlineProviderWithId.notifier);
+    final merchOutlineList = ref.watch(merchOutlineListProvider);
+    final tagList = ref.watch(tagListProvider);
+    final selectedTag = ref.watch(selectedTagProvider);
+    final selectedTagNotifier = ref.read(selectedTagProvider.notifier);
 
     return AlertDialog(
       title: const Text('商品を追加'),
@@ -75,10 +115,28 @@ class AddMerchDialog extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AsyncValueWidget(
-            value: merchDetailList,
+            value: tagList,
+            builder: (data) => DropdownButton(
+              value: selectedTag,
+              items: data
+                  .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.isNotEmpty ? e : "未選択"),
+                      ))
+                  .toList(),
+              onChanged: (tag) {
+                selectedTagNotifier.set(
+                  tag ?? '',
+                  selectedMerchOutlineProviderWithId,
+                );
+              },
+            ),
+          ),
+          AsyncValueWidget(
+            value: merchOutlineList,
             builder: (data) => DropdownButton(
               icon: const Icon(Icons.tag),
-              value: selectedMerchDetail,
+              value: selectedMerchOutline,
               items: data
                   .map(
                     (e) => DropdownMenuItem(
@@ -88,7 +146,7 @@ class AddMerchDialog extends ConsumerWidget {
                   )
                   .toList(),
               onChanged: (val) {
-                selectedMerchDetailNotifier.set(val);
+                selectedMerchOutlineNotifier.set(val);
                 if (val == null) return;
                 userMerchNotifier.update(
                   userMerch.copyWith(merchDetailId: val.id),
@@ -126,6 +184,17 @@ class AddMerchDialog extends ConsumerWidget {
         ),
         TextButton(
           onPressed: () {
+            if (selectedMerchOutline == null) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('商品を選択してください')));
+              return;
+            }
+            if (userMerch.price == 0) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('価格を入力してください')));
+              return;
+            }
+
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('追加しました')));
             userMerchNotifier.addMerchToRepository(shopId);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/model/merch.dart';
 import 'package:ketchy/ui/home/posted_merch/posted_merch_tile.dart';
+import 'package:ketchy/ui/shop_detail/add_merch_dialog.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
 import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -37,6 +38,19 @@ class PostedMerchList extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('投稿一覧 $merchName'),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => AddMerchDialog(
+              shopId: shopId,
+              merchDetailId: merchDetailId,
+            ),
+          );
+        },
+        label: const Text('投稿する'),
+        icon: const Icon(Icons.add),
       ),
       body: AsyncValueWidget(
         value: postedMerchList,

@@ -16,15 +16,28 @@ Future<List<Shop>> shopList(ShopListRef ref, List<String> merchIdList) async {
       .read(shopRepositoryProvider)
       .fetchShopListFromMerchList(merchIdList);
 
-  return shopList..sort((b, a) {
-    final lengthCompare = a.merchList.length.compareTo(b.merchList.length);
-    if (lengthCompare != 0) {
-      return lengthCompare;
-    }
-    final aSum = a.merchList.fold<double>(0, (sum, merch) => sum + merch.averagePrice());
-    final bSum = b.merchList.fold<double>(0, (sum, merch) => sum + merch.averagePrice());
-    return aSum.compareTo(bSum);
-  });
+  return shopList
+    ..sort((b, a) {
+      final lengthCompare = a.merchList.length.compareTo(b.merchList.length);
+      if (lengthCompare != 0) {
+        return lengthCompare;
+      }
+      final aSum = a.merchList
+          .fold<double>(0, (sum, merch) => sum + merch.averagePrice());
+      final bSum = b.merchList
+          .fold<double>(0, (sum, merch) => sum + merch.averagePrice());
+      return bSum.compareTo(aSum);
+    });
+}
+
+@riverpod
+class ShowUnfilledShop extends _$ShowUnfilledShop {
+  @override
+  bool build() => false;
+
+  void toggle() {
+    state = !state;
+  }
 }
 
 class ShopList extends ConsumerWidget {
@@ -37,39 +50,75 @@ class ShopList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final shopList = ref.watch(shopListProvider(merchIdList));
-
+    final showUnfilledShop = ref.watch(showUnfilledShopProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(merchName),
       ),
       body: AsyncValueWidget(
         value: shopList,
-        builder: (shopList) => _whenData(context, shopList, merchIdList.length),
+        builder: (shopList) => _whenData(
+          context,
+          shopList,
+          merchIdList.length,
+          showUnfilledShop,
+          () {
+            ref.read(showUnfilledShopProvider.notifier).toggle();
+          },
+        ),
       ),
     );
   }
 
+  Widget _whenData(
+    BuildContext context,
+    List<Shop> shopList,
+    int merchCount,
+    bool showUnfilledShop,
+    VoidCallback toggleShowUnfilledShop,
+  ) {
+    final filledShopList =
+        shopList.where((shop) => shop.merchList.length == merchCount).toList();
+    final unfilledShopList =
+        shopList.where((shop) => shop.merchList.length != merchCount).toList();
 
-  Widget _whenData(BuildContext context, List<Shop> shopList, int merchCount) {
-    return ListView.separated(
-      separatorBuilder: (context, index) => const ListDivider(),
-      itemCount: shopList.length,
-      itemBuilder: (context, index) => ShopTile(
-        shop: shopList[index],
-        merchList: shopList[index].merchList,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ShopDetail(shop: shopList[index]),
+    return ListView(
+      children: [
+        for (final shop in filledShopList)
+          ShopTile(
+            shop: shop,
+            merchList: shop.merchList,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShopDetail(shop: shop),
+                ),
+              );
+            },
+          ),
+        ListTile(
+          leading: showUnfilledShop
+              ? const Icon(Icons.arrow_drop_down)
+              : const Icon(Icons.arrow_right),
+          title: const Text('商品が足りないお店'),
+          onTap: toggleShowUnfilledShop,
+        ),
+        if (showUnfilledShop)
+          for (final shop in unfilledShopList)
+            ShopTile(
+              shop: shop,
+              merchList: shop.merchList,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShopDetail(shop: shop),
+                  ),
+                );
+              },
             ),
-          );
-        },
-        tileColor: shopList[index].merchList.length != merchCount
-            ? Colors.grey[300]
-            : null,
-      ),
+      ],
     );
   }
-
 }

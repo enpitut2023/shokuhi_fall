@@ -10,7 +10,6 @@ import 'package:ketchy/ui/widgets/map_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../home/merch_list/merch_detail_tile.dart';
-import 'add_merch_dialog.dart';
 
 part 'shop_detail.g.dart';
 
@@ -70,21 +69,25 @@ class ShopDetail extends ConsumerWidget {
                           child: Text(
                             '$dow: ',
                             style: TextStyle(
-                              fontWeight:
-                              dayOfWeek == dow ? FontWeight.bold : FontWeight.normal,
+                              fontWeight: dayOfWeek == dow
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                               color:
                                   dayOfWeek == dow ? Colors.black : Colors.grey,
                             ),
                           ),
                         ),
                         Text(
-                          shop.open[dow] == '00:00' && shop.close[dow] == '00:00' ?
-                            '24時間営業' :
-                            '${shop.open[dow]} - ${shop.close[dow] == '00:00' ? '24:00' : shop.close[dow]}',
+                          shop.open[dow] == '00:00' &&
+                                  shop.close[dow] == '00:00'
+                              ? '24時間営業'
+                              : '${shop.open[dow]} - ${shop.close[dow] == '00:00' ? '24:00' : shop.close[dow]}',
                           style: TextStyle(
-                            fontWeight:
-                              dayOfWeek == dow ? FontWeight.bold : FontWeight.normal,
-                              color: dayOfWeek == dow ? Colors.black : Colors.grey,
+                            fontWeight: dayOfWeek == dow
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color:
+                                dayOfWeek == dow ? Colors.black : Colors.grey,
                           ),
                         ),
                       ],
@@ -99,19 +102,8 @@ class ShopDetail extends ConsumerWidget {
                     padding: const EdgeInsets.only(left: 16.0),
                     child: Text('- ${comment.value}'),
                   ),
-                ListTile(
-                  title: const Text('商品一覧'),
-                  trailing: IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AddMerchDialog(
-                          shopId: shop.id,
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.add),
-                  ),
+                const ListTile(
+                  title: Text('商品一覧'),
                 ),
                 const Divider(),
                 AsyncValueWidget(

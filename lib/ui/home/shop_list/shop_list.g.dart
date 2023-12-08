@@ -6,7 +6,7 @@ part of 'shop_list.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shopListHash() => r'c8169f114792357238b32288e47a104ccd211b7c';
+String _$shopListHash() => r'149d3d0beffa2f0886d79b6d19c08d8f85d24b27';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -153,5 +153,22 @@ class _ShopListProviderElement
   @override
   List<String> get merchIdList => (origin as ShopListProvider).merchIdList;
 }
+
+String _$showUnfilledShopHash() => r'3611baadf873e24b07e8441374b18ee5e055045d';
+
+/// See also [ShowUnfilledShop].
+@ProviderFor(ShowUnfilledShop)
+final showUnfilledShopProvider =
+    AutoDisposeNotifierProvider<ShowUnfilledShop, bool>.internal(
+  ShowUnfilledShop.new,
+  name: r'showUnfilledShopProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$showUnfilledShopHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ShowUnfilledShop = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
