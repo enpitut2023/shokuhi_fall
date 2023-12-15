@@ -52,7 +52,8 @@ Future<List<String>> tagList(TagListRef ref) async {
 @riverpod
 class SelectedMerchOutline extends _$SelectedMerchOutline {
   @override
-  MerchOutline? build(String merchId) {
+  MerchOutline? build(String? merchId) {
+    if(merchId == null) return null;
     final provider = ref.read(merchOutlineRepositoryProvider);
     provider.fetchMerchOutline(merchId).then((value) => state = value);
     return null;
@@ -93,7 +94,7 @@ class AddMerchDialog extends ConsumerWidget {
       {required this.shopId, required this.merchDetailId, super.key});
 
   final String shopId;
-  final String merchDetailId;
+  final String? merchDetailId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
