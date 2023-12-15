@@ -89,6 +89,16 @@ Future<List<MerchOutline>> merchOutlineList(MerchOutlineListRef ref) async {
   return filteredList;
 }
 
+@riverpod
+class SearchText extends _$SearchText {
+  @override
+  String build() => '';
+
+  void set(String text) {
+    state = text;
+  }
+}
+
 class AddMerchDialog extends ConsumerWidget {
   const AddMerchDialog(
       {required this.shopId, required this.merchDetailId, super.key});
@@ -105,6 +115,9 @@ class AddMerchDialog extends ConsumerWidget {
     final selectedMerchOutline = ref.watch(selectedMerchOutlineProviderWithId);
     final selectedMerchOutlineNotifier =
         ref.read(selectedMerchOutlineProviderWithId.notifier);
+    final searchKeyword = ref.watch(searchTextProvider);
+    final searchKeywordNotifier = ref.read(searchTextProvider.notifier);
+
     final merchOutlineList = ref.watch(merchOutlineListProvider);
     final tagList = ref.watch(tagListProvider);
     final selectedTag = ref.watch(selectedTagProvider);
@@ -135,24 +148,30 @@ class AddMerchDialog extends ConsumerWidget {
           ),
           AsyncValueWidget(
             value: merchOutlineList,
-            builder: (data) => DropdownButton(
-              icon: const Icon(Icons.tag),
-              value: selectedMerchOutline,
-              items: data
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (val) {
-                selectedMerchOutlineNotifier.set(val);
-                if (val == null) return;
-                userMerchNotifier.update(
-                  userMerch.copyWith(merchDetailId: val.id),
-                );
-              },
+            builder: (data) => ListView(
+              children: [
+                // キーワード検索用のTextField
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'キーワードを検索',
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                  onChanged: (value) {
+                    searchKeywordNotifier.set(value);
+                  },
+                ),
+                // 検索結果を表示するリスト
+                for (final merchOutline in data
+                    .where((element) => element.name.contains(searchKeyword)))
+                  ListTile(
+                    title: Text(merchOutline.name),
+                    subtitle: Text(merchOutline.tag),
+                    onTap: () {
+                      selectedMerchOutlineNotifier.set(merchOutline);
+                    },
+                    selected: selectedMerchOutline == merchOutline,
+                  ),
+              ],
             ),
           ),
           TextField(
