@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
+import 'package:ketchy/ui/shop_detail/add_merch_dialog.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
 import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -40,9 +41,13 @@ class PostPageBody extends ConsumerWidget {
             title: Text(shopList[index].name),
             subtitle: Text(shopList[index].address),
             onTap: () {
-              // TODO: AddShopDialogを呼び出す
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('追加しました')));
+              showDialog(
+                context: context,
+                builder: (context) => AddMerchDialog(
+                  shopId: shopList[index].id,
+                  merchDetailId: null,
+                ),
+              );
             },
           );
         },
