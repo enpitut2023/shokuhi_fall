@@ -73,8 +73,71 @@ class SelectedTag extends _$SelectedTag {
   }
 }
 
-class MerchList extends ConsumerWidget {
-  const MerchList({super.key});
+class MerchListTitle extends ConsumerWidget {
+  const MerchListTitle({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedMerchList = ref.watch(selectedMerchListProvider);
+    return Text('商品一覧: ${selectedMerchList.length}件選択中');
+  }
+}
+
+class MerchListAction extends ConsumerWidget {
+  const MerchListAction({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedTag = ref.watch(selectedTagProvider);
+    final selectedTagNotifier = ref.read(selectedTagProvider.notifier);
+    return AsyncValueWidget(
+      value: ref.watch(tagListProvider),
+      builder: (data) => DropdownButton(
+        icon: const Icon(Icons.tag),
+        value: selectedTag,
+        items: data
+            .map(
+              (e) => DropdownMenuItem(
+                value: (e != 'null') ? e : null,
+                child: Text((e != 'null') ? e : '全て'),
+              ),
+            )
+            .toList(),
+        onChanged: (val) {
+          selectedTagNotifier.set(val);
+        },
+      ),
+    );
+  }
+}
+
+class MerchListFab extends ConsumerWidget {
+  const MerchListFab({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedMerchList = ref.watch(selectedMerchListProvider);
+    return FloatingActionButton.extended(
+      icon: const Icon(Icons.search),
+      label: const Text('お店を探す'),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShopList(
+              merchIdList: selectedMerchList.map((e) => e.id).toList(),
+              merchName: selectedMerchList.map((e) => e.name).join(','),
+            ),
+          ),
+        );
+      },
+      isExtended: true,
+    );
+  }
+}
+
+class MerchListBody extends ConsumerWidget {
+  const MerchListBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,49 +145,8 @@ class MerchList extends ConsumerWidget {
     final selectedMerchList = ref.watch(selectedMerchListProvider);
     final selectedMerchListNotifier =
         ref.read(selectedMerchListProvider.notifier);
-    final selectedTag = ref.watch(selectedTagProvider);
-    final selectedTagNotifier = ref.read(selectedTagProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('商品一覧: ${selectedMerchList.length}件選択中'),
-        actions: [
-          AsyncValueWidget(
-            value: ref.watch(tagListProvider),
-            builder: (data) => DropdownButton(
-              icon: const Icon(Icons.tag),
-              value: selectedTag,
-              items: data
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: (e != 'null') ? e : null,
-                      child: Text((e != 'null') ? e : '全て'),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (val) {
-                selectedTagNotifier.set(val);
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.search),
-        label: const Text('お店を探す'),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ShopList(
-                merchIdList: selectedMerchList.map((e) => e.id).toList(),
-                merchName: selectedMerchList.map((e) => e.name).join(','),
-              ),
-            ),
-          );
-        },
-        isExtended: true,
-      ),
       body: AsyncValueWidget(
         value: merchList,
         builder: (data) => ListView.separated(
