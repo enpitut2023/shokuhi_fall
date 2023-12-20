@@ -52,7 +52,7 @@ final userMerchProvider =
 
 typedef _$UserMerch = AutoDisposeNotifier<PostedMerch>;
 String _$selectedMerchOutlineHash() =>
-    r'7f8c16b85c70313b8b5ea207134d060cdddea244';
+    r'6181a7f1548b837d7feff73f4681a0a75987d927';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -77,10 +77,10 @@ class _SystemHash {
 
 abstract class _$SelectedMerchOutline
     extends BuildlessAutoDisposeNotifier<MerchOutline?> {
-  late final String merchId;
+  late final String? merchId;
 
   MerchOutline? build(
-    String merchId,
+    String? merchId,
   );
 }
 
@@ -95,7 +95,7 @@ class SelectedMerchOutlineFamily extends Family<MerchOutline?> {
 
   /// See also [SelectedMerchOutline].
   SelectedMerchOutlineProvider call(
-    String merchId,
+    String? merchId,
   ) {
     return SelectedMerchOutlineProvider(
       merchId,
@@ -131,7 +131,7 @@ class SelectedMerchOutlineProvider extends AutoDisposeNotifierProviderImpl<
     SelectedMerchOutline, MerchOutline?> {
   /// See also [SelectedMerchOutline].
   SelectedMerchOutlineProvider(
-    String merchId,
+    String? merchId,
   ) : this._internal(
           () => SelectedMerchOutline()..merchId = merchId,
           from: selectedMerchOutlineProvider,
@@ -156,7 +156,7 @@ class SelectedMerchOutlineProvider extends AutoDisposeNotifierProviderImpl<
     required this.merchId,
   }) : super.internal();
 
-  final String merchId;
+  final String? merchId;
 
   @override
   MerchOutline? runNotifierBuild(
@@ -205,7 +205,7 @@ class SelectedMerchOutlineProvider extends AutoDisposeNotifierProviderImpl<
 
 mixin SelectedMerchOutlineRef on AutoDisposeNotifierProviderRef<MerchOutline?> {
   /// The parameter `merchId` of this provider.
-  String get merchId;
+  String? get merchId;
 }
 
 class _SelectedMerchOutlineProviderElement
@@ -214,7 +214,7 @@ class _SelectedMerchOutlineProviderElement
   _SelectedMerchOutlineProviderElement(super.provider);
 
   @override
-  String get merchId => (origin as SelectedMerchOutlineProvider).merchId;
+  String? get merchId => (origin as SelectedMerchOutlineProvider).merchId;
 }
 
 String _$selectedTagHash() => r'c278c565b197595eff8c2eef11af73fb3e6b7b30';
