@@ -148,7 +148,7 @@ class ShopRepositoryImpl implements ShopRepository {
 
     final merchDetailDoc = await merchDetailDocRef.get();
 
-    double sumPrice = postedMerch.price;
+    double sumPrice = postedMerch.price / postedMerch.amount; // 1unitあたりの値段に変換
     int count = 1;
     if (merchDetailDoc.exists) {
       final merchDetailJson = merchDetailDoc.data()!;

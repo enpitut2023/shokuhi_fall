@@ -21,6 +21,7 @@ class UserMerch extends _$UserMerch {
       id: const Uuid().v4(),
       merchDetailId: '',
       date: date,
+      amount: 0,
       price: 0,
     );
   }
@@ -164,6 +165,17 @@ class AddMerchDialog extends ConsumerWidget {
             onChanged: (value) {
               userMerchNotifier
                   .update(userMerch.copyWith(price: double.parse(value)));
+            },
+          ),
+          TextField(
+            decoration: InputDecoration(
+              labelText: '量（${selectedMerchOutline?.unit ?? ""}）',
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            onChanged: (value) {
+              userMerchNotifier
+                  .update(userMerch.copyWith(amount: int.parse(value)));
             },
           ),
           TextField(

@@ -11,6 +11,7 @@ abstract class MerchOutline with _$MerchOutline {
     required String id,
     required String name,
     required String tag, // タグ（「野菜」など）
+    required String unit, // 単位（「g」など）
     String? description, // 商品説明（「100gあたりの値段」など）
   }) = _Merch;
 
@@ -47,6 +48,7 @@ class PostedMerch with _$PostedMerch {
     required String id,
     required String merchDetailId,
     required double price,
+    required int amount,
     required String date,
     String? description,
     String? imageUrl,

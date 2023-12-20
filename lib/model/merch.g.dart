@@ -10,6 +10,7 @@ _$MerchImpl _$$MerchImplFromJson(Map<String, dynamic> json) => _$MerchImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       tag: json['tag'] as String,
+      unit: json['unit'] as String,
       description: json['description'] as String?,
     );
 
@@ -18,6 +19,7 @@ Map<String, dynamic> _$$MerchImplToJson(_$MerchImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'tag': instance.tag,
+      'unit': instance.unit,
       'description': instance.description,
     };
 
@@ -42,6 +44,7 @@ _$PostedMerchImpl _$$PostedMerchImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       merchDetailId: json['merchDetailId'] as String,
       price: (json['price'] as num).toDouble(),
+      amount: json['amount'] as int,
       date: json['date'] as String,
       description: json['description'] as String?,
       imageUrl: json['imageUrl'] as String?,
@@ -52,6 +55,7 @@ Map<String, dynamic> _$$PostedMerchImplToJson(_$PostedMerchImpl instance) =>
       'id': instance.id,
       'merchDetailId': instance.merchDetailId,
       'price': instance.price,
+      'amount': instance.amount,
       'date': instance.date,
       'description': instance.description,
       'imageUrl': instance.imageUrl,
