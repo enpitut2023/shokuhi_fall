@@ -14,6 +14,7 @@ class PostedMerchTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(postedMerch.date),
+          Text('量：${postedMerch.amount}'),
           Text('説明：${postedMerch.description ?? ''}'),
         ],
       ),

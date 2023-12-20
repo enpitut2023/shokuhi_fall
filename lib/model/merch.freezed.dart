@@ -23,6 +23,7 @@ mixin _$MerchOutline {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get tag => throw _privateConstructorUsedError; // タグ（「野菜」など）
+  String get unit => throw _privateConstructorUsedError; // 単位（「g」など）
   String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +38,8 @@ abstract class $MerchOutlineCopyWith<$Res> {
           MerchOutline value, $Res Function(MerchOutline) then) =
       _$MerchOutlineCopyWithImpl<$Res, MerchOutline>;
   @useResult
-  $Res call({String id, String name, String tag, String? description});
+  $Res call(
+      {String id, String name, String tag, String unit, String? description});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$MerchOutlineCopyWithImpl<$Res, $Val extends MerchOutline>
     Object? id = null,
     Object? name = null,
     Object? tag = null,
+    Object? unit = null,
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,6 +73,10 @@ class _$MerchOutlineCopyWithImpl<$Res, $Val extends MerchOutline>
       tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      unit: null == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
@@ -87,7 +94,8 @@ abstract class _$$MerchImplCopyWith<$Res>
       __$$MerchImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String tag, String? description});
+  $Res call(
+      {String id, String name, String tag, String unit, String? description});
 }
 
 /// @nodoc
@@ -104,6 +112,7 @@ class __$$MerchImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? tag = null,
+    Object? unit = null,
     Object? description = freezed,
   }) {
     return _then(_$MerchImpl(
@@ -118,6 +127,10 @@ class __$$MerchImplCopyWithImpl<$Res>
       tag: null == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
+              as String,
+      unit: null == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
@@ -134,6 +147,7 @@ class _$MerchImpl implements _Merch {
       {required this.id,
       required this.name,
       required this.tag,
+      required this.unit,
       this.description});
 
   factory _$MerchImpl.fromJson(Map<String, dynamic> json) =>
@@ -147,11 +161,14 @@ class _$MerchImpl implements _Merch {
   final String tag;
 // タグ（「野菜」など）
   @override
+  final String unit;
+// 単位（「g」など）
+  @override
   final String? description;
 
   @override
   String toString() {
-    return 'MerchOutline(id: $id, name: $name, tag: $tag, description: $description)';
+    return 'MerchOutline(id: $id, name: $name, tag: $tag, unit: $unit, description: $description)';
   }
 
   @override
@@ -162,13 +179,15 @@ class _$MerchImpl implements _Merch {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.description, description) ||
                 other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, tag, description);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, tag, unit, description);
 
   @JsonKey(ignore: true)
   @override
@@ -189,6 +208,7 @@ abstract class _Merch implements MerchOutline {
       {required final String id,
       required final String name,
       required final String tag,
+      required final String unit,
       final String? description}) = _$MerchImpl;
 
   factory _Merch.fromJson(Map<String, dynamic> json) = _$MerchImpl.fromJson;
@@ -200,6 +220,8 @@ abstract class _Merch implements MerchOutline {
   @override
   String get tag;
   @override // タグ（「野菜」など）
+  String get unit;
+  @override // 単位（「g」など）
   String? get description;
   @override
   @JsonKey(ignore: true)
@@ -411,6 +433,7 @@ mixin _$PostedMerch {
   String get id => throw _privateConstructorUsedError;
   String get merchDetailId => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
+  int get amount => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
@@ -431,6 +454,7 @@ abstract class $PostedMerchCopyWith<$Res> {
       {String id,
       String merchDetailId,
       double price,
+      int amount,
       String date,
       String? description,
       String? imageUrl});
@@ -452,6 +476,7 @@ class _$PostedMerchCopyWithImpl<$Res, $Val extends PostedMerch>
     Object? id = null,
     Object? merchDetailId = null,
     Object? price = null,
+    Object? amount = null,
     Object? date = null,
     Object? description = freezed,
     Object? imageUrl = freezed,
@@ -469,6 +494,10 @@ class _$PostedMerchCopyWithImpl<$Res, $Val extends PostedMerch>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -497,6 +526,7 @@ abstract class _$$PostedMerchImplCopyWith<$Res>
       {String id,
       String merchDetailId,
       double price,
+      int amount,
       String date,
       String? description,
       String? imageUrl});
@@ -516,6 +546,7 @@ class __$$PostedMerchImplCopyWithImpl<$Res>
     Object? id = null,
     Object? merchDetailId = null,
     Object? price = null,
+    Object? amount = null,
     Object? date = null,
     Object? description = freezed,
     Object? imageUrl = freezed,
@@ -533,6 +564,10 @@ class __$$PostedMerchImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -556,6 +591,7 @@ class _$PostedMerchImpl implements _PostedMerch {
       {required this.id,
       required this.merchDetailId,
       required this.price,
+      required this.amount,
       required this.date,
       this.description,
       this.imageUrl});
@@ -570,6 +606,8 @@ class _$PostedMerchImpl implements _PostedMerch {
   @override
   final double price;
   @override
+  final int amount;
+  @override
   final String date;
   @override
   final String? description;
@@ -578,7 +616,7 @@ class _$PostedMerchImpl implements _PostedMerch {
 
   @override
   String toString() {
-    return 'PostedMerch(id: $id, merchDetailId: $merchDetailId, price: $price, date: $date, description: $description, imageUrl: $imageUrl)';
+    return 'PostedMerch(id: $id, merchDetailId: $merchDetailId, price: $price, amount: $amount, date: $date, description: $description, imageUrl: $imageUrl)';
   }
 
   @override
@@ -590,6 +628,7 @@ class _$PostedMerchImpl implements _PostedMerch {
             (identical(other.merchDetailId, merchDetailId) ||
                 other.merchDetailId == merchDetailId) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -599,8 +638,8 @@ class _$PostedMerchImpl implements _PostedMerch {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, merchDetailId, price, date, description, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, merchDetailId, price, amount,
+      date, description, imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -621,6 +660,7 @@ abstract class _PostedMerch implements PostedMerch {
       {required final String id,
       required final String merchDetailId,
       required final double price,
+      required final int amount,
       required final String date,
       final String? description,
       final String? imageUrl}) = _$PostedMerchImpl;
@@ -634,6 +674,8 @@ abstract class _PostedMerch implements PostedMerch {
   String get merchDetailId;
   @override
   double get price;
+  @override
+  int get amount;
   @override
   String get date;
   @override
