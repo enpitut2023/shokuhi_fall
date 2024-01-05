@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/repository/merch_outline_repository.dart';
+import 'package:ketchy/ui/home/merch_list/merch_amount_dialog.dart';
 import 'package:ketchy/ui/home/merch_list/merch_outline_tile.dart';
 import 'package:ketchy/ui/home/shop_list/shop_list.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
@@ -54,11 +55,25 @@ class SelectedMerchList extends _$SelectedMerchList {
     state = state.where((element) => element.id != merch.id).toList();
   }
 
-  void toggle(MerchOutline merch) {
-    if (state.contains(merch)) {
+  void toggle(MerchOutline merch, BuildContext context) {
+    if (state
+            .firstWhere((element) => element.id == merch.id,
+                orElse: () =>
+                    const MerchOutline(id: "-1", name: "", tag: "", unit: ""))
+            .id !=
+        "-1") {
       remove(merch);
     } else {
-      add(merch);
+      // いい感じにダイアログを出して、amountを入力させる
+      showDialog(
+        context: context,
+        builder: (context) => MerchAmountDialog(merchName: merch.name, unit: merch.unit),
+      ).then((amount) {
+        if (amount == null) {
+          throw Exception('amount is null');
+        }
+        add(merch.copyWith(amount: amount));
+      });
     }
   }
 }
@@ -125,8 +140,10 @@ class MerchListFab extends ConsumerWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ShopList(
-              merchIdList: selectedMerchList.map((e) => e.id).toList(),
-              merchName: selectedMerchList.map((e) => e.name).join(','),
+              merchList: selectedMerchList,
+              merchName: selectedMerchList
+                  .map((e) => '${e.name}(${e.amount}${e.unit})')
+                  .join(','),
             ),
           ),
         );
@@ -149,19 +166,31 @@ class MerchListBody extends ConsumerWidget {
     return Scaffold(
       body: AsyncValueWidget(
         value: merchList,
-        builder: (data) => ListView.separated(
-          separatorBuilder: (context, index) => const ListDivider(),
-          itemCount: data.length,
-          itemBuilder: (context, index) => MerchOutlineTile(
-            data[index],
-            onTap: () => selectedMerchListNotifier.toggle(data[index]),
-            trailing: Checkbox(
-              value: selectedMerchList.contains(data[index]),
-              onChanged: (value) =>
-                  selectedMerchListNotifier.toggle(data[index]),
-            ),
-          ),
-        ),
+        builder: (data) {
+          return ListView.separated(
+            separatorBuilder: (context, index) => const ListDivider(),
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final selectedMerch = selectedMerchList
+                  .where((element) => element.id == data[index].id)
+                  .firstOrNull;
+              return MerchOutlineTile(
+                data[index],
+                onTap: () {
+                  selectedMerchListNotifier.toggle(data[index], context);
+                },
+                trailing: Text(
+                  (selectedMerch != null)
+                      ? ('${selectedMerch.amount}${selectedMerch.unit}')
+                      : '',
+                ),
+                tileColor: (selectedMerch != null)
+                    ? Theme.of(context).primaryColor.withOpacity(0.2)
+                    : null,
+              );
+            },
+          );
+        },
       ),
     );
   }

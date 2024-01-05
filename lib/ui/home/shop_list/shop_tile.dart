@@ -22,7 +22,7 @@ class ShopTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var sum = 0.0;
     for (final merch in merchList) {
-      sum += merch.averagePrice();
+      sum += merch.averagePrice() * (merch.amount ?? 0);
     }
     final now = DateTime.now();
     final dayOfWeek = DateFormat('EEEE').format(now);
@@ -38,7 +38,7 @@ class ShopTile extends StatelessWidget {
           '営業時間: ${shop.open[dayOfWeek]!} - ${shop.close[dayOfWeek]!}'),
           const Text('内訳：'),
           for (final merch in merchList)
-            Text('${merch.name} ${merch.averagePrice().toStringAsFixed(2)}円'),
+            Text('${merch.name}(${merch.amount}${merch.unit}) ${(merch.averagePrice() * (merch.amount ?? 0)).toStringAsFixed(2)}円'),
         ],
       ),
       trailing: Column(
