@@ -208,9 +208,21 @@ class AddMerchDialog extends ConsumerWidget {
               return;
             }
 
+            if (userMerch.price >= 100000) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('価格が高すぎます')));
+              return;
+            }
+
             if (userMerch.amount == 0) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text('量を入力してください')));
+              return;
+            }
+
+            if (userMerch.amount >= 100000) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('量が多すぎます')));
               return;
             }
 
