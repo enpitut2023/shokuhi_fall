@@ -24,6 +24,8 @@ mixin _$MerchOutline {
   String get name => throw _privateConstructorUsedError;
   String get tag => throw _privateConstructorUsedError; // タグ（「野菜」など）
   String get unit => throw _privateConstructorUsedError; // 単位（「g」など）
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? get amount => throw _privateConstructorUsedError; // 量（「100g」など）
   String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +41,12 @@ abstract class $MerchOutlineCopyWith<$Res> {
       _$MerchOutlineCopyWithImpl<$Res, MerchOutline>;
   @useResult
   $Res call(
-      {String id, String name, String tag, String unit, String? description});
+      {String id,
+      String name,
+      String tag,
+      String unit,
+      @JsonKey(includeFromJson: false, includeToJson: false) int? amount,
+      String? description});
 }
 
 /// @nodoc
@@ -59,6 +66,7 @@ class _$MerchOutlineCopyWithImpl<$Res, $Val extends MerchOutline>
     Object? name = null,
     Object? tag = null,
     Object? unit = null,
+    Object? amount = freezed,
     Object? description = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +86,10 @@ class _$MerchOutlineCopyWithImpl<$Res, $Val extends MerchOutline>
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
               as String,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -95,7 +107,12 @@ abstract class _$$MerchImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String name, String tag, String unit, String? description});
+      {String id,
+      String name,
+      String tag,
+      String unit,
+      @JsonKey(includeFromJson: false, includeToJson: false) int? amount,
+      String? description});
 }
 
 /// @nodoc
@@ -113,6 +130,7 @@ class __$$MerchImplCopyWithImpl<$Res>
     Object? name = null,
     Object? tag = null,
     Object? unit = null,
+    Object? amount = freezed,
     Object? description = freezed,
   }) {
     return _then(_$MerchImpl(
@@ -132,6 +150,10 @@ class __$$MerchImplCopyWithImpl<$Res>
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
               as String,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -148,6 +170,7 @@ class _$MerchImpl implements _Merch {
       required this.name,
       required this.tag,
       required this.unit,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.amount,
       this.description});
 
   factory _$MerchImpl.fromJson(Map<String, dynamic> json) =>
@@ -164,11 +187,15 @@ class _$MerchImpl implements _Merch {
   final String unit;
 // 単位（「g」など）
   @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final int? amount;
+// 量（「100g」など）
+  @override
   final String? description;
 
   @override
   String toString() {
-    return 'MerchOutline(id: $id, name: $name, tag: $tag, unit: $unit, description: $description)';
+    return 'MerchOutline(id: $id, name: $name, tag: $tag, unit: $unit, amount: $amount, description: $description)';
   }
 
   @override
@@ -180,6 +207,7 @@ class _$MerchImpl implements _Merch {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.description, description) ||
                 other.description == description));
   }
@@ -187,7 +215,7 @@ class _$MerchImpl implements _Merch {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, tag, unit, description);
+      Object.hash(runtimeType, id, name, tag, unit, amount, description);
 
   @JsonKey(ignore: true)
   @override
@@ -209,6 +237,7 @@ abstract class _Merch implements MerchOutline {
       required final String name,
       required final String tag,
       required final String unit,
+      @JsonKey(includeFromJson: false, includeToJson: false) final int? amount,
       final String? description}) = _$MerchImpl;
 
   factory _Merch.fromJson(Map<String, dynamic> json) = _$MerchImpl.fromJson;
@@ -222,6 +251,9 @@ abstract class _Merch implements MerchOutline {
   @override // タグ（「野菜」など）
   String get unit;
   @override // 単位（「g」など）
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? get amount;
+  @override // 量（「100g」など）
   String? get description;
   @override
   @JsonKey(ignore: true)
@@ -239,6 +271,10 @@ mixin _$MerchDetail {
   String get name => throw _privateConstructorUsedError;
   double get sumPrice => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? get amount => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? get unit => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -252,7 +288,13 @@ abstract class $MerchDetailCopyWith<$Res> {
           MerchDetail value, $Res Function(MerchDetail) then) =
       _$MerchDetailCopyWithImpl<$Res, MerchDetail>;
   @useResult
-  $Res call({String id, String name, double sumPrice, int count});
+  $Res call(
+      {String id,
+      String name,
+      double sumPrice,
+      int count,
+      @JsonKey(includeFromJson: false, includeToJson: false) int? amount,
+      @JsonKey(includeFromJson: false, includeToJson: false) String? unit});
 }
 
 /// @nodoc
@@ -272,6 +314,8 @@ class _$MerchDetailCopyWithImpl<$Res, $Val extends MerchDetail>
     Object? name = null,
     Object? sumPrice = null,
     Object? count = null,
+    Object? amount = freezed,
+    Object? unit = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -290,6 +334,14 @@ class _$MerchDetailCopyWithImpl<$Res, $Val extends MerchDetail>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      unit: freezed == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -302,7 +354,13 @@ abstract class _$$MerchDetailImplCopyWith<$Res>
       __$$MerchDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, double sumPrice, int count});
+  $Res call(
+      {String id,
+      String name,
+      double sumPrice,
+      int count,
+      @JsonKey(includeFromJson: false, includeToJson: false) int? amount,
+      @JsonKey(includeFromJson: false, includeToJson: false) String? unit});
 }
 
 /// @nodoc
@@ -320,6 +378,8 @@ class __$$MerchDetailImplCopyWithImpl<$Res>
     Object? name = null,
     Object? sumPrice = null,
     Object? count = null,
+    Object? amount = freezed,
+    Object? unit = freezed,
   }) {
     return _then(_$MerchDetailImpl(
       id: null == id
@@ -338,6 +398,14 @@ class __$$MerchDetailImplCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      unit: freezed == unit
+          ? _value.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -349,7 +417,9 @@ class _$MerchDetailImpl extends _MerchDetail {
       {required this.id,
       required this.name,
       required this.sumPrice,
-      required this.count})
+      required this.count,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.amount,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.unit})
       : super._();
 
   factory _$MerchDetailImpl.fromJson(Map<String, dynamic> json) =>
@@ -363,10 +433,16 @@ class _$MerchDetailImpl extends _MerchDetail {
   final double sumPrice;
   @override
   final int count;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final int? amount;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final String? unit;
 
   @override
   String toString() {
-    return 'MerchDetail(id: $id, name: $name, sumPrice: $sumPrice, count: $count)';
+    return 'MerchDetail(id: $id, name: $name, sumPrice: $sumPrice, count: $count, amount: $amount, unit: $unit)';
   }
 
   @override
@@ -378,12 +454,15 @@ class _$MerchDetailImpl extends _MerchDetail {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.sumPrice, sumPrice) ||
                 other.sumPrice == sumPrice) &&
-            (identical(other.count, count) || other.count == count));
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.unit, unit) || other.unit == unit));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, sumPrice, count);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, sumPrice, count, amount, unit);
 
   @JsonKey(ignore: true)
   @override
@@ -404,7 +483,10 @@ abstract class _MerchDetail extends MerchDetail {
       {required final String id,
       required final String name,
       required final double sumPrice,
-      required final int count}) = _$MerchDetailImpl;
+      required final int count,
+      @JsonKey(includeFromJson: false, includeToJson: false) final int? amount,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final String? unit}) = _$MerchDetailImpl;
   const _MerchDetail._() : super._();
 
   factory _MerchDetail.fromJson(Map<String, dynamic> json) =
@@ -418,6 +500,12 @@ abstract class _MerchDetail extends MerchDetail {
   double get sumPrice;
   @override
   int get count;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? get amount;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? get unit;
   @override
   @JsonKey(ignore: true)
   _$$MerchDetailImplCopyWith<_$MerchDetailImpl> get copyWith =>

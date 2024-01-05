@@ -12,6 +12,8 @@ abstract class MerchOutline with _$MerchOutline {
     required String name,
     required String tag, // タグ（「野菜」など）
     required String unit, // 単位（「g」など）
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    int? amount, // 量（「100g」など）
     String? description, // 商品説明（「100gあたりの値段」など）
   }) = _Merch;
 
@@ -23,11 +25,14 @@ abstract class MerchOutline with _$MerchOutline {
 @freezed
 abstract class MerchDetail implements _$MerchDetail {
   const MerchDetail._();
+
   const factory MerchDetail({
     required String id,
     required String name,
     required double sumPrice,
     required int count,
+    @JsonKey(includeFromJson: false, includeToJson: false) int? amount,
+    @JsonKey(includeFromJson: false, includeToJson: false) String? unit,
   }) = _MerchDetail;
 
   double averagePrice() {

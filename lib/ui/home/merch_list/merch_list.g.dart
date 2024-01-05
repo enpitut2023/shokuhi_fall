@@ -35,7 +35,7 @@ final tagListProvider = AutoDisposeFutureProvider<List<String>>.internal(
 );
 
 typedef TagListRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$selectedMerchListHash() => r'3370cd8e6769a088a31716ed436ee7f5ad1bdb35';
+String _$selectedMerchListHash() => r'3915778bdfa07946b7efc525c5981f867ce3746c';
 
 /// See also [SelectedMerchList].
 @ProviderFor(SelectedMerchList)

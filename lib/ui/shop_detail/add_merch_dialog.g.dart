@@ -36,7 +36,7 @@ final merchOutlineListProvider =
 );
 
 typedef MerchOutlineListRef = AutoDisposeFutureProviderRef<List<MerchOutline>>;
-String _$userMerchHash() => r'a9a6069d8e28af938861e6e10bea3328c9729474';
+String _$userMerchHash() => r'f5142c9b9fb6997fb62096697cfb17ddb967ada9';
 
 /// See also [UserMerch].
 @ProviderFor(UserMerch)

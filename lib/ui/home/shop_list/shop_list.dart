@@ -1,22 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchy/model/merch.dart';
 import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:ketchy/ui/home/shop_list/shop_tile.dart';
 import 'package:ketchy/ui/shop_detail/shop_detail.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
-import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shop_list.g.dart';
 
 @riverpod
-Future<List<Shop>> shopList(ShopListRef ref, List<String> merchIdList) async {
-  final shopList = await ref
+Future<List<Shop>> shopList(
+    ShopListRef ref, List<MerchOutline> merchList) async {
+  final merchIdList = merchList.map((e) => e.id).toList();
+  var shopList = await ref
       .read(shopRepositoryProvider)
       .fetchShopListFromMerchList(merchIdList);
 
-  return shopList
+  var newShopList = <Shop>[];
+  for (final shop in shopList) {
+    var newMerchList = <MerchDetail>[];
+    for (final merch in shop.merchList) {
+      final index = merchIdList.indexOf(merch.id);
+      if (index != -1) {
+        newMerchList.add(
+          merch.copyWith(
+            amount: merchList[index].amount,
+            unit: merchList[index].unit,
+          ),
+        );
+      }
+    }
+    newShopList.add(shop.copyWith(merchList: newMerchList));
+  }
+
+  return newShopList
     ..sort((b, a) {
       final lengthCompare = a.merchList.length.compareTo(b.merchList.length);
       if (lengthCompare != 0) {
@@ -41,15 +60,14 @@ class ShowUnfilledShop extends _$ShowUnfilledShop {
 }
 
 class ShopList extends ConsumerWidget {
-  const ShopList(
-      {super.key, required this.merchIdList, required this.merchName});
+  const ShopList({super.key, required this.merchList, required this.merchName});
 
-  final List<String> merchIdList;
+  final List<MerchOutline> merchList;
   final String merchName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shopList = ref.watch(shopListProvider(merchIdList));
+    final shopList = ref.watch(shopListProvider(merchList));
     final showUnfilledShop = ref.watch(showUnfilledShopProvider);
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +78,7 @@ class ShopList extends ConsumerWidget {
         builder: (shopList) => _whenData(
           context,
           shopList,
-          merchIdList.length,
+          merchList.length,
           showUnfilledShop,
           () {
             ref.read(showUnfilledShopProvider.notifier).toggle();
