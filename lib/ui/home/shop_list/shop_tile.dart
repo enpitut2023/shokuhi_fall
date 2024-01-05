@@ -38,7 +38,7 @@ class ShopTile extends StatelessWidget {
           '営業時間: ${shop.open[dayOfWeek]!} - ${shop.close[dayOfWeek]!}'),
           const Text('内訳：'),
           for (final merch in merchList)
-            Text('${merch.name}(${merch.amount}${merch.unit}) ${merch.averagePrice() * (merch.amount ?? 0)}円'),
+            Text('${merch.name}(${merch.amount}${merch.unit}) ${(merch.averagePrice() * (merch.amount ?? 0)).toStringAsFixed(2)}円'),
         ],
       ),
       trailing: Column(
@@ -46,7 +46,7 @@ class ShopTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '合計金額: $sum円',
+            '合計金額: ${sum.toStringAsFixed(2)}円',
             style: const TextStyle(
               fontSize: 18, // テキストのサイズを大きくします。
               fontWeight: FontWeight.bold, // テキストの太さを太くします。

@@ -208,6 +208,13 @@ class AddMerchDialog extends ConsumerWidget {
               return;
             }
 
+            if (userMerch.amount == 0) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('量を入力してください')));
+              return;
+            }
+
+
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('追加しました')));
             userMerchNotifier.addMerchToRepository(shopId);
