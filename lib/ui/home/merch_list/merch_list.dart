@@ -38,7 +38,7 @@ Future<List<String>> tagList(TagListRef ref) async {
   final merchList =
       await ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
   final List<String> tagList = merchList.map((e) => e.tag).toSet().toList();
-  tagList.add('null');
+  tagList.insert(0,'null');
   return tagList;
 }
 
