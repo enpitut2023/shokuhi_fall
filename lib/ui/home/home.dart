@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/ui/home/merch_list/merch_list.dart';
 import 'package:ketchy/ui/home/post_page/post_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'home.g.dart';
 
@@ -30,6 +31,15 @@ class Home extends ConsumerWidget {
         title: (index == 0) ? const MerchListTitle() : const PostPageTitle(),
         actions: [
           if (index == 0) const MerchListAction(),
+          if (index == 1)
+            OutlinedButton(
+              onPressed: () {
+                // お店追加依頼の処理
+                final url = Uri.parse('https://docs.google.com/forms/d/11si3OVqnCS0hlz_KKaeEdpBA3BoqMKROcE95jsaCj5I/viewform?edit_requested=true');
+                launchUrl(url);
+              },
+              child: const Text('お店追加依頼'),
+            ),
         ],
       ),
       floatingActionButton: (index == 0) ? const MerchListFab() : null,

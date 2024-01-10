@@ -15,19 +15,32 @@ class MerchAmountDialog extends StatefulWidget {
 
 class _MerchAmountDialogState extends State<MerchAmountDialog> {
   final textController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('商品の量を入力してください'),
-      content: TextField(
-        controller: textController,
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-        decoration: InputDecoration(
-          hintText: '${widget.merchName}(${widget.unit})',
+      content: Form(
+        key: formKey,
+        child: TextFormField(
+          controller: textController,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          decoration: InputDecoration(
+            hintText: '${widget.merchName}(${widget.unit})',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '量を入力してください';
+            }
+            if (int.parse(value) <= 0) {
+              return '量は1以上で入力してください';
+            }
+            return null;
+          }
         ),
       ),
       actions: [
@@ -39,19 +52,10 @@ class _MerchAmountDialogState extends State<MerchAmountDialog> {
         ),
         TextButton(
           onPressed: () {
-            if (textController.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('量を入力してください')),
-              );
+            if (formKey.currentState?.validate() != true) {
               return;
             }
             final amount = int.parse(textController.text);
-            if (amount <= 0) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('量は1以上で入力してください')),
-              );
-              return;
-            }
             Navigator.pop(context, amount);
           },
           child: const Text('OK'),

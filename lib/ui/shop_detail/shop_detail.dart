@@ -57,7 +57,10 @@ class ShopDetail extends ConsumerWidget {
                   child: MapWidget(shop.longitude, shop.latitude),
                 ),
                 for (final child in _shopDetailListChildren(
-                    merchDetailList, dayOfWeek, context))
+                  merchDetailList,
+                  dayOfWeek,
+                  context,
+                ))
                   child,
               ],
             ),
@@ -131,26 +134,39 @@ class ShopDetail extends ConsumerWidget {
       const Divider(),
       AsyncValueWidget(
         value: merchDetailList,
-        builder: (data) => Column(
-          children: [
-            for (final merch in data)
-              MerchDetailTile(
-                merch, shop.id,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PostedMerchList(
-                        shopId: shop.id,
-                        merchDetailId: merch.id,
-                        merchName: merch.name,
+        builder: (data) {
+          data.sort((a, b) {
+            final containsA = shop.merchList.indexWhere((element) => element.id == a.id);
+            final containsB = shop.merchList.indexWhere((element) => element.id == b.id);
+            if (containsA != -1 && containsB == -1) {
+              return -1;
+            } else if (containsA == -1 && containsB != -1) {
+              return 1;
+            } else {
+              return a.name.compareTo(b.name);
+            }
+          });
+          return Column(
+            children: [
+              for (final merch in data)
+                MerchDetailTile(
+                  merch, shop.id,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PostedMerchList(
+                          shopId: shop.id,
+                          merchDetailId: merch.id,
+                          merchName: merch.name,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-          ],
-        ),
+                    );
+                  },
+                ),
+            ],
+          );
+        },
       ),
     ];
   }

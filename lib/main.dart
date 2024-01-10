@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchy/ui/home/home.dart';
+import 'package:ketchy/ui/theme/ketchy_theme.dart';
 
 import 'firebase_options.dart';
 
@@ -20,10 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ケッチー',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ketchyTheme,
       home: const Home(),
       debugShowCheckedModeBanner: false,
     );
