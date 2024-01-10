@@ -30,6 +30,13 @@ class Home extends ConsumerWidget {
         title: (index == 0) ? const MerchListTitle() : const PostPageTitle(),
         actions: [
           if (index == 0) const MerchListAction(),
+          if (index == 1)
+            OutlinedButton(
+              onPressed: () {
+                // TODO: ここにお店追加依頼の処理を書く
+              },
+              child: const Text('お店追加依頼'),
+            ),
         ],
       ),
       floatingActionButton: (index == 0) ? const MerchListFab() : null,

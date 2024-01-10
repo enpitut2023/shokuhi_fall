@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:ketchy/model/merch.dart';
 import 'package:ketchy/repository/merch_outline_repository.dart';
@@ -54,7 +55,7 @@ Future<List<String>> tagList(TagListRef ref) async {
 class SelectedMerchOutline extends _$SelectedMerchOutline {
   @override
   MerchOutline? build(String? merchId) {
-    if(merchId == null) return null;
+    if (merchId == null) return null;
     final provider = ref.read(merchOutlineRepositoryProvider);
     provider.fetchMerchOutline(merchId).then((value) => state = value);
     return null;
@@ -91,11 +92,12 @@ Future<List<MerchOutline>> merchOutlineList(MerchOutlineListRef ref) async {
 }
 
 class AddMerchDialog extends ConsumerWidget {
-  const AddMerchDialog(
+  AddMerchDialog(
       {required this.shopId, required this.merchDetailId, super.key});
 
   final String shopId;
   final String? merchDetailId;
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -112,81 +114,114 @@ class AddMerchDialog extends ConsumerWidget {
     final selectedTagNotifier = ref.read(selectedTagProvider.notifier);
 
     return AlertDialog(
-      title: const Text('商品を追加'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AsyncValueWidget(
-            value: tagList,
-            builder: (data) => DropdownButton(
-              value: selectedTag,
-              items: data
-                  .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(e.isNotEmpty ? e : "未選択"),
-                      ))
-                  .toList(),
-              onChanged: (tag) {
-                selectedTagNotifier.set(
-                  tag ?? '',
-                  selectedMerchOutlineProviderWithId,
-                );
-              },
-            ),
-          ),
-          AsyncValueWidget(
-            value: merchOutlineList,
-            builder: (data) => DropdownButton(
-              icon: const Icon(Icons.tag),
-              value: selectedMerchOutline,
-              items: data
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (val) {
-                selectedMerchOutlineNotifier.set(val);
-                if (val == null) return;
-                userMerchNotifier.update(
-                  userMerch.copyWith(merchDetailId: val.id),
-                );
-              },
-            ),
-          ),
-          TextField(
-            decoration: const InputDecoration(
-              labelText: '価格',
-            ),
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onChanged: (value) {
-              userMerchNotifier
-                  .update(userMerch.copyWith(price: double.parse(value)));
+          const Text('商品を追加'),
+          OutlinedButton(
+            onPressed: () {
+              // TODO: ここに商品追加依頼の処理を書く
             },
-          ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: '量（${selectedMerchOutline?.unit ?? ""}）',
-            ),
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onChanged: (value) {
-              userMerchNotifier
-                  .update(userMerch.copyWith(amount: int.parse(value)));
-            },
-          ),
-          TextField(
-            decoration: const InputDecoration(
-              labelText: '説明',
-            ),
-            onChanged: (value) {
-              userMerchNotifier.update(userMerch.copyWith(description: value));
-            },
+            child: const Text('商品追加依頼'),
           ),
         ],
+      ),
+      content: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AsyncValueWidget(
+              value: tagList,
+              builder: (data) => DropdownButton(
+                value: selectedTag,
+                items: data
+                    .map((e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e.isNotEmpty ? e : "未選択"),
+                        ))
+                    .toList(),
+                onChanged: (tag) {
+                  selectedTagNotifier.set(
+                    tag ?? '',
+                    selectedMerchOutlineProviderWithId,
+                  );
+                },
+              ),
+            ),
+            AsyncValueWidget(
+              value: merchOutlineList,
+              builder: (data) => DropdownButton(
+                icon: const Icon(Icons.tag),
+                value: selectedMerchOutline,
+                items: data
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (val) {
+                  selectedMerchOutlineNotifier.set(val);
+                  if (val == null) return;
+                  userMerchNotifier.update(
+                    userMerch.copyWith(merchDetailId: val.id),
+                  );
+                },
+              ),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: '価格',
+              ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: (value) {
+                userMerchNotifier
+                    .update(userMerch.copyWith(price: double.parse(value)));
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty || value == '0') {
+                  return '価格を入力してください';
+                }
+                if (int.parse(value) >= 100000) {
+                  return '価格が高すぎます';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: '量（${selectedMerchOutline?.unit ?? ""}）',
+              ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: (value) {
+                userMerchNotifier
+                    .update(userMerch.copyWith(amount: int.parse(value)));
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty || value == '0') {
+                  return '量を入力してください';
+                }
+                if (int.parse(value) >= 100000) {
+                  return '量が多すぎます';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: '説明',
+              ),
+              onChanged: (value) {
+                userMerchNotifier
+                    .update(userMerch.copyWith(description: value));
+              },
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -197,36 +232,16 @@ class AddMerchDialog extends ConsumerWidget {
         ),
         TextButton(
           onPressed: () {
+            if (formKey.currentState?.validate() != true) {
+              return;
+            }
             if (selectedMerchOutline == null) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('商品を選択してください')));
+              Fluttertoast.showToast(
+                msg: '商品を選択してください',
+                toastLength: Toast.LENGTH_SHORT,
+              );
               return;
             }
-            if (userMerch.price == 0) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('価格を入力してください')));
-              return;
-            }
-
-            if (userMerch.price >= 100000) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('価格が高すぎます')));
-              return;
-            }
-
-            if (userMerch.amount == 0) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('量を入力してください')));
-              return;
-            }
-
-            if (userMerch.amount >= 100000) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('量が多すぎます')));
-              return;
-            }
-
-
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('追加しました')));
             userMerchNotifier.addMerchToRepository(shopId);
