@@ -9,6 +9,7 @@ import 'package:ketchy/repository/shop_repository.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'add_merch_dialog.g.dart';
 
@@ -120,7 +121,8 @@ class AddMerchDialog extends ConsumerWidget {
           const Text('商品を追加'),
           OutlinedButton(
             onPressed: () {
-              // TODO: ここに商品追加依頼の処理を書く
+              final url = Uri.parse('https://docs.google.com/forms/d/1jui3GkT1v9ssCBggm_QK0LSjAhdD-NKwvbdkM9IGEjc/viewform?edit_requested=true');
+              launchUrl(url);
             },
             child: const Text('商品追加依頼'),
           ),

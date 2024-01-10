@@ -28,6 +28,8 @@ abstract class ShopRepository {
 
   Future<List<PostedMerch>> fetchPostedMerchList(
       String shopId, String merchDetailId);
+  
+  Future<void> convert();
 }
 
 class ShopRepositoryImpl implements ShopRepository {
@@ -37,7 +39,6 @@ class ShopRepositoryImpl implements ShopRepository {
         .collection('march_list')
         .doc(shopId)
         .get();
-    log(snapshot.data().toString());
     final shopJson = snapshot.data();
     if (shopJson == null) {
       throw Exception('shop not found');
@@ -229,5 +230,90 @@ class ShopRepositoryImpl implements ShopRepository {
       }
     }
     return list;
+  }
+
+  @override
+  Future<void> convert() async {
+    final instance = FirebaseFirestore.instance;
+    final merchListQuery = await instance.collection('merch_list').get();
+    final merchList = [];
+    for(var doc in merchListQuery.docs){
+      String description = doc.data()['description'];
+      // descriptionから数字を抽出する
+      final regExp = RegExp(r'\d+');
+      final amount = regExp.firstMatch(description);
+      int amountInt = amount == null ? 0 : int.parse(amount.group(0)!);
+      // log(amountInt.toString());
+      
+      final outline = MerchOutline(
+          id: doc.id,
+          name: doc.data()['name'],
+          tag: doc.data()['tag'],
+          description: doc.data()['description'],
+          unit: doc.data()['unit'],
+        );
+      // 変換したoutlineをfirebaseに保存
+      instance.collection('merch_list').doc(doc.id).set(outline.toJson());
+      
+      final shopSnapshot = await instance.collection('shop_list').get();
+      for (final shopDoc in shopSnapshot.docs) {
+        final List<MerchDetail> merchList = [];
+        final merchId = doc.id;
+        final merchDoc = await instance
+            .collection('shop_list')
+            .doc(shopDoc.id)
+            .collection('merch_list')
+            .doc(merchId)
+            .get();
+        if (!merchDoc.exists) continue;
+        final detail = MerchDetail(
+          id: merchId,
+          name: outline.name,
+          sumPrice: (merchDoc.data()!['sumPrice'] as double) / amountInt,
+          count: merchDoc.data()!['count'],
+        );
+
+        // 変換したdetailをfirebaseに保存
+        instance
+            .collection('shop_list')
+            .doc(shopDoc.id)
+            .collection('merch_list')
+            .doc(merchId)
+            .set(detail.toJson());
+
+        final postedMerchDoc = await instance
+            .collection('shop_list')
+            .doc(shopDoc.id)
+            .collection('merch_list')
+            .doc(merchId)
+            .collection('posted_merch_list')
+            .get();
+        log(postedMerchDoc.docs.length.toString());
+        final List<PostedMerch> postedMerchList = [];
+        for (final postedMerch in postedMerchDoc.docs) {
+          final postedMerchInst = PostedMerch(
+              id: postedMerch.id,
+              merchDetailId: merchId,
+              price: postedMerch.data()['price'],
+              amount: amountInt,
+              date: postedMerch.data()['date'],
+              description: postedMerch.data()['description'],
+              imageUrl: postedMerch.data()['image_url'],
+            );
+          postedMerchList.add(
+            postedMerchInst,
+          );
+          // 変換したpostedMerchをfirebaseに保存
+          instance
+              .collection('shop_list')
+              .doc(shopDoc.id)
+              .collection('merch_list')
+              .doc(merchId)
+              .collection('posted_merch_list')
+              .doc(postedMerchInst.id)
+              .set(postedMerchInst.toJson());
+        }
+      }
+    }
   }
 }
