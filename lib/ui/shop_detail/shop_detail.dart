@@ -150,7 +150,7 @@ class ShopDetail extends ConsumerWidget {
             children: [
               for (final merch in data)
                 MerchDetailTile(
-                  merch,
+                  merch, shop.id,
                   onTap: () {
                     Navigator.push(
                       context,
