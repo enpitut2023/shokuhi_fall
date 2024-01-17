@@ -206,6 +206,14 @@ class MerchListBody extends ConsumerWidget {
                   fontWeight: FontWeight.bold, // テキストの太さを太くします。
                 ),
               ),
+              leading: (selectedMerch != null)
+                  ? IconButton(
+                      icon: const Icon(Icons.check),
+                      onPressed: () {
+                        selectedMerchListNotifier.remove(data[index]);
+                      },
+                    )
+                  : null,
               tileColor: (selectedMerch != null)
                   ? Theme.of(context).primaryColor.withOpacity(0.2)
                   : null,
