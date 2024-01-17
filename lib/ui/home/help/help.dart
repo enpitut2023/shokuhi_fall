@@ -13,12 +13,12 @@ class HelpDialog extends StatelessWidget {
           children: <Widget>[
             const Text('商品を選んで検索する手順を説明します。'),
             const Text(''),
-            const Text('① まずは商品一覧から購入したい商品を選んでください。'),
+            const Text('① まずは商品一覧から検索したい商品を選んでください。'),
             Image.asset(
               'images/merch_help1.jpeg',
             ),
             const Text(''),
-            const Text('② 商品をクリックすると下のような画面が表示されるので、その商品の購入したい量を入力してください。'),
+            const Text('② 商品をクリックすると下のような画面が表示されるので、その商品の検索したい量を入力してください。'),
             Image.asset(
               'images/merch_help2.jpeg',
             ),

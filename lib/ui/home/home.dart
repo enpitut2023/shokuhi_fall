@@ -34,7 +34,7 @@ class Home extends ConsumerWidget {
           if (index == 0)
             IconButton(
               icon: const Icon(Icons.help),
-              color: Colors.purple.withOpacity(0.6),
+              color: Colors.deepOrange.withOpacity(0.8),
               onPressed: () {
                 _showHelpDialog(context);
               },
