@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchy/ui/home/help/help.dart';
 import 'package:ketchy/ui/home/merch_list/merch_list.dart';
 import 'package:ketchy/ui/home/post_page/post_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,6 +32,14 @@ class Home extends ConsumerWidget {
         title: (index == 0) ? const MerchListTitle() : const PostPageTitle(),
         actions: [
           if (index == 0)
+            IconButton(
+              icon: const Icon(Icons.help),
+              color: Colors.deepOrange.withOpacity(0.8),
+              onPressed: () {
+                _showHelpDialog(context);
+              },
+            ),
+          if (index == 0) 
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: MerchListAction(),
@@ -68,6 +77,15 @@ class Home extends ConsumerWidget {
           notifier.set(index);
         },
       ),
+    );
+  }
+
+  Future<void> _showHelpDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const HelpDialog();
+      },
     );
   }
 }
