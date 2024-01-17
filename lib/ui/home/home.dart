@@ -30,15 +30,23 @@ class Home extends ConsumerWidget {
       appBar: AppBar(
         title: (index == 0) ? const MerchListTitle() : const PostPageTitle(),
         actions: [
-          if (index == 0) const MerchListAction(),
+          if (index == 0)
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: MerchListAction(),
+            ),
           if (index == 1)
-            OutlinedButton(
-              onPressed: () {
-                // お店追加依頼の処理
-                final url = Uri.parse('https://docs.google.com/forms/d/11si3OVqnCS0hlz_KKaeEdpBA3BoqMKROcE95jsaCj5I/viewform?edit_requested=true');
-                launchUrl(url);
-              },
-              child: const Text('お店追加依頼'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  // お店追加依頼の処理
+                  final url = Uri.parse(
+                      'https://docs.google.com/forms/d/11si3OVqnCS0hlz_KKaeEdpBA3BoqMKROcE95jsaCj5I/viewform?edit_requested=true');
+                  launchUrl(url);
+                },
+                child: const Text('お店追加依頼'),
+              ),
             ),
         ],
       ),

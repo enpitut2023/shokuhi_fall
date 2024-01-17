@@ -38,7 +38,7 @@ Future<List<String>> tagList(TagListRef ref) async {
   final merchList =
       await ref.read(merchOutlineRepositoryProvider).fetchMerchOutlineList();
   final List<String> tagList = merchList.map((e) => e.tag).toSet().toList();
-  tagList.insert(0,'null');
+  tagList.insert(0, 'null');
   return tagList;
 }
 
@@ -67,7 +67,8 @@ class SelectedMerchList extends _$SelectedMerchList {
       // いい感じにダイアログを出して、amountを入力させる
       showDialog(
         context: context,
-        builder: (context) => MerchAmountDialog(merchName: merch.name, unit: merch.unit),
+        builder: (context) =>
+            MerchAmountDialog(merchName: merch.name, unit: merch.unit),
       ).then((amount) {
         if (amount == null) {
           throw Exception('amount is null');
@@ -163,35 +164,63 @@ class MerchListBody extends ConsumerWidget {
     final selectedMerchListNotifier =
         ref.read(selectedMerchListProvider.notifier);
 
-    return Scaffold(
-      body: AsyncValueWidget(
-        value: merchList,
-        builder: (data) {
-          return ListView.separated(
-            separatorBuilder: (context, index) => const ListDivider(),
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final selectedMerch = selectedMerchList
-                  .where((element) => element.id == data[index].id)
-                  .firstOrNull;
-              return MerchOutlineTile(
-                data[index],
-                onTap: () {
-                  selectedMerchListNotifier.toggle(data[index], context);
-                },
-                trailing: Text(
-                  (selectedMerch != null)
-                      ? ('${selectedMerch.amount}${selectedMerch.unit}')
-                      : '',
-                ),
-                tileColor: (selectedMerch != null)
-                    ? Theme.of(context).primaryColor.withOpacity(0.2)
-                    : null,
+    return AsyncValueWidget(
+      value: merchList,
+      builder: (data) {
+        return ListView.separated(
+          separatorBuilder: (context, index) {
+            if (index != data.length - 1 &&
+                data[index].tag != data[index + 1].tag) {
+              return Column(
+                children: [
+                  const ListDivider(),
+                  ListTile(
+                    title: Text(data[index + 1].tag),
+                    tileColor: Theme.of(context).colorScheme.secondary.withAlpha(50),
+                  ),
+                  const Divider(
+                    height: 0,
+                    color: Colors.black,
+                  ),
+                ],
               );
-            },
-          );
-        },
-      ),
+            }
+            return const ListDivider();
+          },
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final selectedMerch = selectedMerchList
+                .where((element) => element.id == data[index].id)
+                .firstOrNull;
+            return MerchOutlineTile(
+              data[index],
+              onTap: () {
+                selectedMerchListNotifier.toggle(data[index], context);
+              },
+              trailing: Text(
+                (selectedMerch != null)
+                    ? ('${selectedMerch.amount} ${selectedMerch.unit}')
+                    : '',
+                style: const TextStyle(
+                  fontSize: 18, // テキストのサイズを大きくします。
+                  fontWeight: FontWeight.bold, // テキストの太さを太くします。
+                ),
+              ),
+              leading: (selectedMerch != null)
+                  ? IconButton(
+                      icon: const Icon(Icons.check),
+                      onPressed: () {
+                        selectedMerchListNotifier.remove(data[index]);
+                      },
+                    )
+                  : null,
+              tileColor: (selectedMerch != null)
+                  ? Theme.of(context).primaryColor.withOpacity(0.2)
+                  : null,
+            );
+          },
+        );
+      },
     );
   }
 }

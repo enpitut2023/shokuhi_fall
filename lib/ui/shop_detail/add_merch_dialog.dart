@@ -119,12 +119,15 @@ class AddMerchDialog extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('商品を追加'),
-          OutlinedButton(
-            onPressed: () {
-              final url = Uri.parse('https://docs.google.com/forms/d/1jui3GkT1v9ssCBggm_QK0LSjAhdD-NKwvbdkM9IGEjc/viewform?edit_requested=true');
-              launchUrl(url);
-            },
-            child: const Text('商品追加依頼'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () {
+                final url = Uri.parse('https://docs.google.com/forms/d/1jui3GkT1v9ssCBggm_QK0LSjAhdD-NKwvbdkM9IGEjc/viewform?edit_requested=true');
+                launchUrl(url);
+              },
+              child: const Text('商品追加依頼'),
+            ),
           ),
         ],
       ),
