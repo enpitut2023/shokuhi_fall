@@ -168,7 +168,25 @@ class MerchListBody extends ConsumerWidget {
       value: merchList,
       builder: (data) {
         return ListView.separated(
-          separatorBuilder: (context, index) => const ListDivider(),
+          separatorBuilder: (context, index) {
+            if (index != data.length - 1 &&
+                data[index].tag != data[index + 1].tag) {
+              return Column(
+                children: [
+                  const ListDivider(),
+                  ListTile(
+                    title: Text(data[index + 1].tag),
+                    tileColor: Theme.of(context).colorScheme.secondary.withAlpha(50),
+                  ),
+                  const Divider(
+                    height: 0,
+                    color: Colors.black,
+                  ),
+                ],
+              );
+            }
+            return const ListDivider();
+          },
           itemCount: data.length,
           itemBuilder: (context, index) {
             final selectedMerch = selectedMerchList
