@@ -181,8 +181,12 @@ class MerchListBody extends ConsumerWidget {
               },
               trailing: Text(
                 (selectedMerch != null)
-                    ? ('${selectedMerch.amount}${selectedMerch.unit}')
+                    ? ('${selectedMerch.amount} ${selectedMerch.unit}')
                     : '',
+                style: const TextStyle(
+                  fontSize: 18, // テキストのサイズを大きくします。
+                  fontWeight: FontWeight.bold, // テキストの太さを太くします。
+                ),
               ),
               tileColor: (selectedMerch != null)
                   ? Theme.of(context).primaryColor.withOpacity(0.2)

@@ -30,7 +30,7 @@ class _MerchAmountDialogState extends State<MerchAmountDialog> {
             FilteringTextInputFormatter.digitsOnly,
           ],
           decoration: InputDecoration(
-            hintText: '${widget.merchName}(${widget.unit})',
+            hintText: '${widget.merchName} [${widget.unit}]',
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
