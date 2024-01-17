@@ -121,7 +121,7 @@ class ShopDetail extends ConsumerWidget {
         ),
       if (shop.comments.isNotEmpty)
         const ListTile(
-          title: Text('コメント'),
+          title: Text('備考'),
         ),
       for (final comment in shop.comments.entries)
         Padding(
