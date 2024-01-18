@@ -36,13 +36,21 @@ class Home extends ConsumerWidget {
               icon: const Icon(Icons.help),
               color: Colors.deepOrange.withOpacity(0.8),
               onPressed: () {
-                _showHelpDialog(context);
+                _showMerchHelpDialog(context);
               },
             ),
           if (index == 0)
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: MerchListAction(),
+            ),
+          if (index == 1)
+            IconButton(
+              icon: const Icon(Icons.help),
+              color: Colors.deepOrange.withOpacity(0.8),
+              onPressed: () {
+                _showPostHelpDialog(context);
+              },
             ),
           if (index == 1)
             Padding(
@@ -83,11 +91,20 @@ class Home extends ConsumerWidget {
     );
   }
 
-  Future<void> _showHelpDialog(BuildContext context) async {
+  Future<void> _showMerchHelpDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return const HelpDialog();
+        return const MerchHelpDialog();
+      },
+    );
+  }
+
+  Future<void> _showPostHelpDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const PostHelpDialog();
       },
     );
   }
