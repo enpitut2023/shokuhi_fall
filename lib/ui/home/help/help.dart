@@ -68,7 +68,7 @@ class PostHelpDialog extends StatelessWidget {
             const Text(''),
             const Text('③ 最後に、右下の「投稿」ボタンをクリックすることで投稿することが出来ます。'),
             Image.asset(
-              'images/post_help2.jpeg',
+              'images/post_help3.jpeg',
             ),
           ],
         ),
