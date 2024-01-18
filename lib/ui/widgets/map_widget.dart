@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapWidget extends StatelessWidget {
   const MapWidget(this.longitude, this.latitude, {super.key});
@@ -26,7 +26,15 @@ class MapWidget extends StatelessWidget {
             Marker(
               point: LatLng(latitude, longitude),
               builder: (context) {
-                return const Icon(Icons.location_on);
+                return IconButton(
+                  icon: const Icon(Icons.location_on),
+                  onPressed: () {
+                    final url = Uri.parse(
+                        'https://www.google.co.jp/maps/@$latitude,$longitude,18z?hl=ja&q=@$latitude,$longitude'
+                    );
+                    launchUrl(url);
+                  },
+                );
               },
             )
           ],
