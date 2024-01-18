@@ -118,7 +118,7 @@ class AddMerchDialog extends ConsumerWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('商品を追加'),
+          const Text('商品を投稿'),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
