@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ケッチー',
+      title: 'ケッチー2',
       theme: ketchyTheme,
       home: const Home(),
       debugShowCheckedModeBanner: false,
