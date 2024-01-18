@@ -4,7 +4,6 @@ import 'package:ketchy/model/shop.dart';
 import 'package:ketchy/repository/shop_repository.dart';
 import 'package:ketchy/ui/shop_detail/add_merch_dialog.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
-import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'post_page.g.dart';
@@ -37,22 +36,25 @@ class PostPageBody extends ConsumerWidget {
       builder: (shopList) => ListView.separated(
         itemCount: shopList.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(shopList[index].name),
-            subtitle: Text(shopList[index].address),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AddMerchDialog(
-                  shopId: shopList[index].id,
-                  merchDetailId: null,
-                ),
-              );
-            },
+          return Card(
+            child: ListTile(
+              tileColor: Colors.white70,
+              title: Text(shopList[index].name),
+              subtitle: Text(shopList[index].address),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AddMerchDialog(
+                    shopId: shopList[index].id,
+                    merchDetailId: null,
+                  ),
+                );
+              },
+            ),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return const ListDivider();
+          return const SizedBox();
         },
       ),
     );

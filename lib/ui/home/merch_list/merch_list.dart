@@ -5,7 +5,6 @@ import 'package:ketchy/ui/home/merch_list/merch_amount_dialog.dart';
 import 'package:ketchy/ui/home/merch_list/merch_outline_tile.dart';
 import 'package:ketchy/ui/home/shop_list/shop_list.dart';
 import 'package:ketchy/ui/widgets/async_value_widget.dart';
-import 'package:ketchy/ui/widgets/list_divider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../model/merch.dart';
@@ -171,21 +170,11 @@ class MerchListBody extends ConsumerWidget {
           separatorBuilder: (context, index) {
             if (index != data.length - 1 &&
                 data[index].tag != data[index + 1].tag) {
-              return Column(
-                children: [
-                  const ListDivider(),
-                  ListTile(
-                    title: Text(data[index + 1].tag),
-                    tileColor: Theme.of(context).colorScheme.secondary.withAlpha(50),
-                  ),
-                  const Divider(
-                    height: 0,
-                    color: Colors.black,
-                  ),
-                ],
+              return ListTile(
+                title: Text(data[index + 1].tag),
               );
             }
-            return const ListDivider();
+            return const SizedBox();
           },
           itemCount: data.length,
           itemBuilder: (context, index) {
@@ -215,8 +204,8 @@ class MerchListBody extends ConsumerWidget {
                     )
                   : null,
               tileColor: (selectedMerch != null)
-                  ? Theme.of(context).primaryColor.withOpacity(0.2)
-                  : null,
+                  ? Theme.of(context).primaryColor
+                  : Colors.white70,
             );
           },
         );

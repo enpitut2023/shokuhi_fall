@@ -8,15 +8,18 @@ class PostedMerchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text('¥${postedMerch.price}'),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(postedMerch.date),
-          Text('量：${postedMerch.amount}'),
-          Text('説明：${postedMerch.description ?? ''}'),
-        ],
+    return Card(
+      child: ListTile(
+        title: Text('¥${postedMerch.price}'),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(postedMerch.date),
+            Text('量：${postedMerch.amount}'),
+            Text('説明：${postedMerch.description ?? ''}'),
+          ],
+        ),
+        tileColor: Colors.white70,
       ),
     );
   }

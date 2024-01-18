@@ -42,16 +42,19 @@ class MerchDetailTile extends ConsumerWidget {
     final average_amout = postedMerchList.fold(0, (previousValue, element) => previousValue + element.amount) / postedMerchList.length;
     final merchAveragePrice = merch.averagePrice() * average_amout;
 
-    return ListTile(
-      title: Text('${'${merch.name}(${average_amout.toStringAsFixed(0)}'+unit})'),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('平均${merchAveragePrice.toStringAsFixed(2)}円'),
-        ],
+    return Card(
+      child: ListTile(
+        title: Text('${'${merch.name}(${average_amout.toStringAsFixed(0)}'+unit})'),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('平均${merchAveragePrice.toStringAsFixed(2)}円'),
+          ],
+        ),
+        onTap: onTap,
+        trailing: trailing,
+        tileColor: Colors.white70,
       ),
-      onTap: onTap,
-      trailing: trailing,
     );
   }
 }

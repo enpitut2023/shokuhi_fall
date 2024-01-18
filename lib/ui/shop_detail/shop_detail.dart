@@ -48,7 +48,12 @@ class ShopDetail extends ConsumerWidget {
                       merchDetailList, dayOfWeek, context),
                 ),
               ),
-              Expanded(child: MapWidget(shop.longitude, shop.latitude)),
+              Expanded(
+                child: Card(
+                  margin: const EdgeInsets.all(8),
+                  child: MapWidget(shop.longitude, shop.latitude),
+                ),
+              ),
             ])
           : ListView(
               children: [
@@ -131,13 +136,14 @@ class ShopDetail extends ConsumerWidget {
       const ListTile(
         title: Text('商品一覧'),
       ),
-      const Divider(),
       AsyncValueWidget(
         value: merchDetailList,
         builder: (data) {
           data.sort((a, b) {
-            final containsA = shop.merchList.indexWhere((element) => element.id == a.id);
-            final containsB = shop.merchList.indexWhere((element) => element.id == b.id);
+            final containsA =
+                shop.merchList.indexWhere((element) => element.id == a.id);
+            final containsB =
+                shop.merchList.indexWhere((element) => element.id == b.id);
             if (containsA != -1 && containsB == -1) {
               return -1;
             } else if (containsA == -1 && containsB != -1) {
@@ -150,7 +156,8 @@ class ShopDetail extends ConsumerWidget {
             children: [
               for (final merch in data)
                 MerchDetailTile(
-                  merch, shop.id,
+                  merch,
+                  shop.id,
                   onTap: () {
                     Navigator.push(
                       context,
