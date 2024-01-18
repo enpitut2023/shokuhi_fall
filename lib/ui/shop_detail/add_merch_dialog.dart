@@ -252,7 +252,7 @@ class AddMerchDialog extends ConsumerWidget {
             userMerchNotifier.addMerchToRepository(shopId);
             Navigator.of(context).pop();
           },
-          child: const Text('追加'),
+          child: const Text('投稿'),
         ),
       ],
     );
